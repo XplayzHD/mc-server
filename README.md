@@ -13,7 +13,9 @@ With this solution, I hope to create a standalone portable server that runs free
 
 ## Hardware <a name="hardware"></a>
 
-The server hardware consists of the following products:
+The server hardware consists of the following products. Including tax, the total cost was around $140.
+
+Note that this list of products does not include an ethernet cable or an HDMI display, both of which I already owned.
 
 - [Raspberry Pi 4 Computer Model B (4GB RAM)](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) - $50
   
@@ -43,14 +45,20 @@ The server hardware consists of the following products:
 
   <img src="doc/keyboard.jpg" alt="keyboard" width="200px" />
 
-Note that this list of products does not include an ethernet cable or an HDMI display, both of which I already owned.
-
 The steps below are the steps I followed to setup up the Raspberry Pi.
 
-1. Screw the fans down into the heat sink. 
+1. Screw the fans down into the heat sink. It's important to notice that there are two types of screws. The flatter-head screws are used to attach the fans to the heat sink.
+2. Place the thermal pads on the cpu.
+
+    <img src="doc/thermal.jpg" alt="thermal pads" width="200px" />
+
+3. Screw the heat sink and the base into the Pi. The fan pins connect to power and ground, respectively.
+
+    <img src="doc/sinkandpi.jpg" alt="heat sink and pi" width="200px" />
+    <img src="doc/pinlayout.jpg" alt="pin layout diagram" width="500px" />
 
 ## Software <a name="software"></a>
 
 The steps below are the steps I followed to setup up the operating system, backups, and start the server.
 
-1. Go to [raspberrypi.org](https://www.raspberrypi.org/) and 
+1. Go to [raspberrypi.org](https://www.raspberrypi.org/)
