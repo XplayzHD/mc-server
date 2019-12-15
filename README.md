@@ -13,9 +13,11 @@ With this solution, I hope to create a standalone portable server that runs free
 
 ## Hardware <a name="hardware"></a>
 
-The server hardware consists of the following products. Including tax, the total cost was around $140.
+The server hardware consists of the following products. Including tax, the total cost was around $135.
 
-Note that this list of products does not include an ethernet cable or an HDMI display, both of which I already owned.
+> Note that this list of products does not include an ethernet cable or an HDMI display, both of which I already owned.
+
+> I also purchased a standard Raspberry Pi Black Case for $5, which, to my dismay, does not fit the heat sink.
 
 - [Raspberry Pi 4 Computer Model B (4GB RAM)](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) - $50
   
@@ -37,10 +39,6 @@ Note that this list of products does not include an ethernet cable or an HDMI di
 
   <img src="doc/sd.jpg" alt="sd" width="200px" />
 
-- Raspberry Pi Black Case - $5
-
-  <img src="doc/picase.jpg" alt="case" width="200px" />
-
 - Logitech K400 Wireless Touch Keyboard - $20
 
   <img src="doc/keyboard.jpg" alt="keyboard" width="200px" />
@@ -48,6 +46,7 @@ Note that this list of products does not include an ethernet cable or an HDMI di
 The steps below are the steps I followed to setup up the Raspberry Pi.
 
 1. Screw the fans down into the heat sink. It's important to notice that there are two types of screws. The flatter-head screws are used to attach the fans to the heat sink.
+
 2. Place the thermal pads on the cpu.
 
     <img src="doc/thermal.jpg" alt="thermal pads" width="200px" />
@@ -61,4 +60,4 @@ The steps below are the steps I followed to setup up the Raspberry Pi.
 
 The steps below are the steps I followed to setup up the operating system, backups, and start the server.
 
-1. Go to [raspberrypi.org](https://www.raspberrypi.org/)
+1. Go to [ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi) to download Ubuntu Server 64-bit and put the image on the microSD card. The version I used is 19.10.1. The instructions for imaging the SD card are provided on the page.
