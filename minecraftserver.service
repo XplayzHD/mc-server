@@ -1,9 +1,12 @@
 [Unit]
-Description=Before tty login script launcher
+Description=Minecraft Server Startup for Raspberry Pi Server
+After=network.target
 
 [Service]
-Type=simple
-ExecStart=/bin/bash -c "/opt/starter.sh"
+Type = forking
+ExecStart = /usr/local/bin/MyService.sh start
+ExecStop = /usr/local/bin/MyService.sh stop
+ExecReload = /usr/local/bin/MyService.sh reload
 
 [Install]
-WantedBy=getty.target
+WantedBy=multi-user.target
