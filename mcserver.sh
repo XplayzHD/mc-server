@@ -51,10 +51,18 @@ function versionCompare () {
 versionCompare $latestVersion $currentVersion
 
 if [[ $? == 1 ]]; then # greater than means 1
-  echo "update server"
+  echo $latestVersion > $verFile 
+
+  link="$(curl --silent https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+  link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
+
+  curl $link -o $ROOT/server.jar
 fi
 
 #
 # 4. start the server
 #
 
+cd $ROOT
+echo "eula=true" > $ROOT/eula.txt
+java -Xmx1024M -Xms1024M -jar server.jar nogui
