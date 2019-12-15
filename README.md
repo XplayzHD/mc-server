@@ -21,27 +21,27 @@ The server hardware consists of the following products. Including tax, the total
 
 - [Raspberry Pi 4 Computer Model B (4GB RAM)](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) - $50
   
-  <img src="doc/raspberrypi.jpg" alt="Raspberry Pi" width="200px" />
+  <img src="doc/raspberrypi.jpg" alt="Raspberry Pi" width="500px" />
 
 - Raspberry Pi USB-C Power Supply - $8
 
-  <img src="doc/power.jpg" alt="power cable" width="200px" />
+  <img src="doc/power.jpg" alt="power cable" width="500px" />
 
 - Adafruit [4340] Aluminum Metal Heatsink Raspberry Pi 4 Case with Dual Fans - $25
 
-  <img src="doc/heatsink.jpg" alt="heat sink" width="200px" />
+  <img src="doc/heatsink.jpg" alt="heat sink" width="500px" />
 
 - Raspberry Pi Micro HDMI Cable - $9
 
-  <img src="doc/adapter.jpg" alt="adapter" width="200px" />
+  <img src="doc/adapter.jpg" alt="adapter" width="500px" />
 
 - Verbatim microSDXC With Adapter (64GB) - $9
 
-  <img src="doc/sd.jpg" alt="sd" width="200px" />
+  <img src="doc/sd.jpg" alt="sd" width="500px" />
 
 - Logitech K400 Wireless Touch Keyboard - $20
 
-  <img src="doc/keyboard.jpg" alt="keyboard" width="200px" />
+  <img src="doc/keyboard.jpg" alt="keyboard" width="500px" />
 
 The steps below are the steps I followed to setup up the Raspberry Pi.
 
@@ -49,11 +49,11 @@ The steps below are the steps I followed to setup up the Raspberry Pi.
 
 2. Place the thermal pads on the cpu.
 
-    <img src="doc/thermal.jpg" alt="thermal pads" width="200px" />
+    <img src="doc/thermal.jpg" alt="thermal pads" width="500px" />
 
 3. Screw the heat sink and the base into the Pi. The fan pins connect to power and ground, respectively.
 
-    <img src="doc/sinkandpi.jpg" alt="heat sink and pi" width="200px" />
+    <img src="doc/sinkandpi.jpg" alt="heat sink and pi" width="500px" />
     <img src="doc/pinlayout.jpg" alt="pin layout diagram" width="500px" />
 
 ## Software <a name="software"></a>
@@ -69,4 +69,7 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```bash
     mkdir backup
     ```
-5. 
+5. Next, create a service called [`minecraftserver.service`](minecraftserver.service). This service runs the minecraft server script on startup. You can download both and place them in the proper locations with the following command:
+    ```bash
+    curl https://github.com/bossley9/mc-server/README.md    
+    ```

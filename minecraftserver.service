@@ -1,0 +1,9 @@
+[Unit]
+Description=Before tty login script launcher
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "/opt/starter.sh"
+
+[Install]
+WantedBy=getty.target
