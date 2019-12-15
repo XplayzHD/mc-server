@@ -65,11 +65,16 @@ The steps below are the steps I followed to setup up the operating system, backu
 2. Connect the SD card, display, and keyboard to the Pi. Connect an ethernet cable to the back of the modem, or router. Finally, connect power. One of the power lights will be red whilst the other blinks green periodically (signifiying that it is reading the SD card).
     I had a few issues with the TV display not detecting the Pi. After disconnecting and reconnecting both the power and display cables, it seems to have booted and displayed on the screen.
 3. Eventually terminal output will come to a stop, and it will prompt for a username and password (in my case, it printed some dmesg info after it prompted for my username). Enter `ubuntu` for both the username and password. It will ask you to change the password.
-4. Create a folder from which to store backups.
+4. Install Java 8 JDK.
+    ```bash
+    sudo apt-get install openjdk-8-jre-headless
+    ```
+    You can verify installation with `java -version`.
+5. Create a folder from which to store backups.
     ```bash
     mkdir backup
     ```
-5. Next, create a service called [`minecraftserver.service`](minecraftserver.service). This service runs the minecraft server script on startup. You can download both and place them in the proper locations with the following command:
+6. Next, create a service called [`minecraftserver.service`](minecraftserver.service). This service runs the minecraft server script on startup. You can download both and place them in the proper locations with the following command:
     ```bash
     curl https://github.com/bossley9/mc-server/README.md    
     ```
