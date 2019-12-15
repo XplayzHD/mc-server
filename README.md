@@ -60,4 +60,13 @@ The steps below are the steps I followed to setup up the Raspberry Pi.
 
 The steps below are the steps I followed to setup up the operating system, backups, and start the server.
 
-1. Go to [ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi) to download Ubuntu Server 64-bit and put the image on the microSD card. The version I used is 19.10.1. The instructions for imaging the SD card are provided on the page.
+1. Go to [ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi) to download Ubuntu Server 64-bit and put the image on the microSD card. The version I used is 19.10.1. The instructions for imaging the SD card are provided on the page, but those instructions didn't seem to work for me. Instead, I used (and recommend) [BalenaEtcher](https://www.balena.io/etcher/) to write the image to the SD card.
+
+2. Connect the SD card, display, and keyboard to the Pi. Connect an ethernet cable to the back of the modem, or router. Finally, connect power. One of the power lights will be red whilst the other blinks green periodically (signifiying that it is reading the SD card).
+    I had a few issues with the TV display not detecting the Pi. After disconnecting and reconnecting both the power and display cables, it seems to have booted and displayed on the screen.
+3. Eventually terminal output will come to a stop, and it will prompt for a username and password (in my case, it printed some dmesg info after it prompted for my username). Enter `ubuntu` for both the username and password. It will ask you to change the password.
+4. Create a folder from which to store backups.
+    ```bash
+    mkdir backup
+    ```
+5. 
