@@ -70,11 +70,7 @@ The steps below are the steps I followed to setup up the operating system, backu
     sudo apt-get install openjdk-8-jre-headless
     ```
     You can verify installation with `java -version`.
-5. Create a folder from which to store backups.
-    ```bash
-    mkdir backup
-    ```
-6. Next, create a service called [`minecraftserver.service`](minecraftserver.service). This service runs the minecraft server script on startup. You can download both and place them in the proper locations with the following command:
+5. Next, create a service called [`minecraftserver.service`](minecraftserver.service). This service runs the minecraft server script on startup. You can download both and place them in the proper locations with the following command:
     ```bash
     curl https://github.com/bossley9/mc-server/README.md    
     ```
