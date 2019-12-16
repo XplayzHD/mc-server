@@ -10,10 +10,27 @@ const app = express();
 
 // GET status
 app.get('/status', (req, res) => {
-  //statusesRef.orderByChild()
   
+  statusesRef.orderByKey().limitToLast(1).once('value', (snapshot) => {
+
+    let response;
+    
+    snapshot.forEach((urlSnap) => {
+      const { ip, message, status } = urlSnap.val();
+      
+      if (!response) {
+        response = {
+          ip,
+          message: message || '',
+          status,
+        }
+      }
+    });
+    
+    res.send(response || {});
+
+  }, (e) => res.send({ error: e }));
   
-  res.send('express app get');
 });
 
 // POST new status
