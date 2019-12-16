@@ -15,8 +15,8 @@ app.get('/status', (req, res) => {
 
     let response;
     
-    snapshot.forEach((urlSnap) => {
-      const { ip, message, status } = urlSnap.val();
+    snapshot.forEach((doc) => {
+      const { ip, message, status } = doc.val();
       
       if (!response) {
         response = {
@@ -34,27 +34,54 @@ app.get('/status', (req, res) => {
 });
 
 // POST new status
-app.post('/status', (req, res) => {
+app.post('/status', async (req, res) => {
   const { ip, message, status } = req.body;
   
-  // add new status
-  
   if (ip && status) {
-
-    statusesRef.push().set({
-      ip,
-      message: message || '',
-      status,
-      lastUpdated: new Date().toISOString(),
-    });
-  
-    // delete old status(es)
-    // TODO
+    let errors = [];
     
-    res.send({ message: 'Status post successful.' });
-  } else {
-    res.send({ error: 'ip or status is null.' });
-  }
+    // retrieve and remove statuses older than six months
+    
+    let threshold = new Date();
+    threshold.setMonth(threshold.getMonth() - 6);
+
+    let removed = 0;
+    
+    try {
+      let snapshot = await statusesRef
+        .orderByChild('lastUpdated')
+        .endAt(threshold.toISOString())
+        .once('value');
+
+      snapshot.forEach((doc) => {
+        removed++;
+        doc.getRef().remove();
+      });
+    
+    } catch (e) {
+      errors.push({ error: e, message: 'unable to retrieve outdated statuses' });
+    }
+
+    // add new status
+    
+    try {
+      await statusesRef.push().set({
+        ip,
+        message: message || '',
+        status,
+        lastUpdated: new Date().toISOString(),
+      });
+    } catch (e) {
+      errors.push({ error: e, message: 'unable to add a new status' });
+    }
+        
+    res.send({
+      message: `added 1 status and removed ${removed} statuses`,
+      errors,
+    });
+
+  } 
+  else res.send({ error: 'ip or status is null.' });
 
 });
 
