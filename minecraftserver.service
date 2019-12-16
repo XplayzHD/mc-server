@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type = forking
-ExecStart = /usr/local/bin/MyService.sh start
-ExecStop = /usr/local/bin/MyService.sh stop
-ExecReload = /usr/local/bin/MyService.sh reload
+ExecStart = /usr/local/bin/mcserver.sh start
+ExecStop = /usr/local/bin/mcserver.sh stop
+ExecReload = /usr/local/bin/mcserver.sh reload
 
 [Install]
 WantedBy=multi-user.target
