@@ -76,7 +76,7 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     You can verify installation with `java -version`.
 5. You will need to setup a Firebase project to run this server. More detailed instructions can be found in [doc/firebase.md](doc/firebase.md).
-6. Before proceeding to this step, make sure you have the Firebase API endpoint url handy. Run `install.sh` from this repository to download the startup service files and server startup. When prompted, enter the endpoint url. This will connect your server to the database.
+6. Before proceeding to this step, make sure you have the Firebase API endpoint url handy. On the Pi server, run `install.sh` from this repository to download the startup service files and server startup. When prompted, enter the endpoint url. This will connect your server to the database.
     ```bash
     curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh | sudo bash
     ```
