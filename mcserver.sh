@@ -3,6 +3,8 @@
 
 ROOT=~/.mc-server
 verFile=$ROOT/server.version
+ip="$(hostname -I | tr -d '[:space:]'):25565"
+endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
 
 # if this is running for the first time,
 # folder/file creation is required
@@ -54,6 +56,7 @@ versionCompare $latestVersion $currentVersion
 
 if [[ $? == 1 ]]; then # greater than means 1
   echo $latestVersion > $verFile 
+  currentVersion=$latestVerion
 
   link="$(curl --silent https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
@@ -64,6 +67,8 @@ fi
 #
 # 4. start the server
 #
+
+curl --silent -X POST -d "ip=$ip&status=online&mcversion=$currentVersion" $endpoint
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt

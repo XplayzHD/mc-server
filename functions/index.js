@@ -16,11 +16,12 @@ app.get('/status', (req, res) => {
     let response;
     
     snapshot.forEach((doc) => {
-      const { ip, message, status } = doc.val();
+      const { ip, mcversion, message, status } = doc.val();
       
       if (!response) {
         response = {
           ip,
+          mcversion,
           message: message || '',
           status,
         }
@@ -35,9 +36,9 @@ app.get('/status', (req, res) => {
 
 // POST new status
 app.post('/status', async (req, res) => {
-  const { ip, message, status } = req.body;
+  const { ip, mcversion, message, status } = req.body;
   
-  if (ip && status) {
+  if (ip && mcversion && status) {
     let errors = [];
     
     // retrieve and remove statuses older than six months
@@ -67,6 +68,7 @@ app.post('/status', async (req, res) => {
     try {
       await statusesRef.push().set({
         ip,
+        mcversion,
         message: message || '',
         status,
         lastUpdated: new Date().toISOString(),
@@ -81,7 +83,7 @@ app.post('/status', async (req, res) => {
     });
 
   } 
-  else res.send({ error: 'ip or status is null.' });
+  else res.send({ error: 'ip, mcversion, or status is null.' });
 
 });
 

@@ -12,6 +12,8 @@ The purpose of this project is to create a self-sufficient portable Minecraft se
 
 With this solution, I hope to create a standalone portable server that runs freely of any other programs, allowing the server full control of the memory and cpu. This standalone solution only needs power and internet, and backups for the previous six months will stored once every week.
 
+Throughout the process, I realized there is no set way of determining the ip address or status of the server. I decided to use [Firebase functions](https://firebase.google.com/docs/functions) to store the server status information in a simple database. An end-user can determine the current ip address or status of the server by visiting this Firebase endpoint. Thus, you will need to create a Firebase project to run this server setup (more information in the [software section](#software)).
+
 ## Hardware <a name="hardware"></a>
 
 The server hardware consists of the following products. Including tax, the total cost was around $135.
@@ -73,11 +75,12 @@ The steps below are the steps I followed to setup up the operating system, backu
     sudo apt-get install openjdk-8-jre-headless
     ```
     You can verify installation with `java -version`.
-5. Finally, run `install.sh` from this repository to download the startup service files and server startup.
+5. You will need to setup a Firebase project to run this server. More detailed instructions can be found in [doc/firebase.md](doc/firebase.md).
+6. Before proceeding to this step, make sure you have the Firebase API endpoint url handy. Run `install.sh` from this repository to download the startup service files and server startup. When prompted, enter the endpoint url. This will connect your server to the database.
     ```bash
     curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh | sudo bash
     ```
-    If you are concerned about security, you are rightly concerned! Running scripts directly from the internet is very insecure; however, the reason for this is because with the headless Ubuntu server running on the Raspberry Pi will be more tricky to download all the specified files from this repository, unzip them and place them in the correct locations. It also initializes the services. Feel free to closely examine the specific files for more information. Below is a brief summary of what `install.sh` will do:
+    The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine the specific files for more information. Below is a brief summary of what `install.sh` will do:
       1. Download the `minecraftserver.service` file from this repository and move it to `/etc/systemd/system`.
       2. Change permissions of the `mcserver.sh` file to ensure it is writable
       3. Notify the system of the new service file and enable the service
@@ -104,11 +107,12 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     stop
     ```
-6. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
+7. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
 
 ## Usage <a name="usage"></a>
 
 - Plugging in the Pi will automatically start the server. The Pi should be connected to ethernet beforehand. 
+- Navigating to the public Firebase endpoint created above will display the current server ip and status information of the server.
 - When shutting down the server, it is recommended to save the world with the command `/save-all` in the Minecraft console before unplugging the Pi. There is no guarantee the server will have saved the latest updates otherwise.
 
 <!--

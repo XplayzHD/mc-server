@@ -15,21 +15,15 @@ npm i -g firebase-tools
 ```
 
 1. Create a [new Firebase project](https://console.firebase.google.com/).
-2. In the directory of your choice, login and initialize Firebase.
-  Make sure to choose Firebase functions and select the project you created in step 1. Choose Javascript as the language and say No to the ESLint installation.
-  
-  Install dependencies with npm.
+2. Login to Firebase.
     ```bash
     firebase login
-    firebase init
     ```
-3. Now that functions have been created
+3. In the directory of your choice, download the Firebase functions using the `firebase.sh` script. This script will create a folder called `mcserver-functions` in your current directory, containing the functions necessary to display the status, then proceed to upload these functions to the cloud. You may need to specify in the command line which Firebase project you would like to use. Select the project you just created.
+    ```bash
+      curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/firebase.sh | sudo bash
+    ```
+4. Go to the [Firebase console](https://console.firebase.google.com/) and select your project. In the side panel on the left, select `Functions`. The url displayed will be the url endpoint for your server. Open this url in a browser. When the server is active, the server will display the ip and status information at this url.
 
+    Save this url endpoint.
 
-
-<!--
-3. Deploy the functions.
-  ```bash
-  firebase deploy --only functions
-  ```
--->
