@@ -5,6 +5,7 @@ A portable server solution for [Minecraft](https://www.minecraft.net/)
 1. [Goal](#goal)
 2. [Hardware](#hardware)
 3. [Software](#software)
+4. [Usage](#usage)
 
 ## Goal <a name="goal"></a>
 The purpose of this project is to create a self-sufficient portable Minecraft server on an independently controlled piece of hardware. Modern Minecraft servers are usually hard to manage because the host server is unable to stay online 24/7, or, when run with other programs, slow down the server. Backing up is also a prominent issue, and a lot of data is lost due to crashes, malfunctions, or poor online ediquette from users.
@@ -60,6 +61,8 @@ The steps below are the steps I followed to setup up the Raspberry Pi.
 
 The steps below are the steps I followed to setup up the operating system, backups, and start the server.
 
+> You will need sudo privileges to download the following files and enable the startup service. 
+
 1. Go to [ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi) to download Ubuntu Server 64-bit and put the image on the microSD card. The version I used is 19.10.1. The instructions for imaging the SD card are provided on the page, but those instructions didn't seem to work for me. Instead, I used (and recommend) [BalenaEtcher](https://www.balena.io/etcher/) to write the image to the SD card.
 
 2. Connect the SD card, display, and keyboard to the Pi. Connect an ethernet cable to the back of the modem, or router. Finally, connect power. One of the power lights will be red whilst the other blinks green periodically (signifiying that it is reading the SD card).
@@ -70,7 +73,32 @@ The steps below are the steps I followed to setup up the operating system, backu
     sudo apt-get install openjdk-8-jre-headless
     ```
     You can verify installation with `java -version`.
-5. Next, create a service called [`minecraftserver.service`](minecraftserver.service). This service runs the minecraft server script on startup. You can download both and place them in the proper locations with the following command:
+5. Finally, run `install.sh` from this repository to download the startup service files and server startup.
     ```bash
-    curl https://github.com/bossley9/mc-server/README.md    
+    curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh | sudo bash
     ```
+    If you are concerned about security, you are rightly concerned! Running scripts directly from the internet is very insecure; however, the reason for this is because with the headless Ubuntu server running on the Raspberry Pi will be more tricky to download all the specified files from this repository, unzip them and place them in the correct locations. It also initializes the services. Feel free to closely examine the specific files for more information. Below is a brief summary of what `install.sh` will do:
+      1. Download the `minecraftserver.service` file from this repository and move it to `/etc/systemd/system`.
+      2. Download the `mcserver.sh` file and place it in the same location as the service. This script will be the one that runs every startup. It checks the server version, updates the server if needed, and runs the server.
+      
+      > Note that the `mcserver.sh` executable allocates 2GB of RAM for the server. Depending on the Pi being used, these settings may need to be changed.
+
+    Once all necessary files are downloaded and in place, the server will begin to run. It is recommended to OP at least one player via the server console once it starts up:
+    ```
+    op [username]
+    ```
+    Then stop the server.
+    ```
+    stop
+    ```
+6. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
+
+## Usage <a name="usage"></a>
+
+- Plugging in the Pi will automatically start the server. The Pi should be connected to ethernet beforehand. 
+- When shutting down the server, it is recommended to save the world with the command `/save-all` in the Minecraft console before unplugging the Pi. There is no guarantee the server will have saved the latest updates otherwise.
+
+<!--
+If some clients cannot connect to the server, then you need to exit the JAVA program by pressing CTRL+Z. Open the file 'server.properties' with an editor such as 'nano'. Remember to be root. Edit the line 'online-mode'. It should be set to 'true'. Change this to 'false' and save the file. Reboot the system and start the Minecraft Server. Have the clients reconnect to the server and everything should be working.
+-->
+
