@@ -23,6 +23,7 @@ npm i -g firebase-tools
     firebase login
     firebase init
     ```
+3. Now that functions have been created
 
 
 
