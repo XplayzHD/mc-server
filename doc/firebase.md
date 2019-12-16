@@ -19,11 +19,25 @@ npm i -g firebase-tools
     ```bash
     firebase login
     ```
-3. In the directory of your choice, download the Firebase functions using the `firebase.sh` script. This script will create a folder called `mcserver-functions` in your current directory, containing the functions necessary to display the status, then proceed to upload these functions to the cloud. You may need to specify in the command line which Firebase project you would like to use. Select the project you just created.
+3. In the directory of your choice, initialize a functions project. When prompted, choose functions and continue, use the project you created earlier, choose javascript, choose `no` for ESLint, and `yes` to install all depedencies.
     ```bash
-      curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/firebase.sh | sudo bash
+    firebase init
     ```
-4. Go to the [Firebase console](https://console.firebase.google.com/) and select your project. In the side panel on the left, select `Functions`. The url displayed will be the url endpoint for your server. Open this url in a browser. When the server is active, the server will display the ip and status information at this url.
+3. Move to the functions directory and download the Firebase functions using the `firebase.sh` script. This script will download the files containing the functions necessary to display the status.
+    ```bash
+    cd functions/
+    curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/firebase.sh | bash
+    ```
+    Then proceed to upload these functions to the cloud. You may need to specify in the command line which Firebase project you would like to use. Select the project you just created.
+    ```bash
+    firebase deploy --only functions
+    ```
+4. Go to the [Firebase console](https://console.firebase.google.com/) and select your project. In the side panel on the left, select `Functions`. The url displayed will be the base url for your server. Open this url in a browser. Your endpoint will be under the `/status` path. When the server is active, the server will display the ip and status information at this url.
+    For example, your url endpoint will look something like:
+    ```
+    https://us-central1-my-Project.cloudfunctions.net/app/status
+    ```
+    When opened in a browser, this url show display `{}`. Verify this is displaying.
 
     Save this url endpoint.
 
