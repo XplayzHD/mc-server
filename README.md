@@ -5,14 +5,12 @@ A portable server solution for [Minecraft](https://www.minecraft.net/)
 1. [Goal](#goal)
 2. [Hardware](#hardware)
 3. [Software](#software)
-5. [Usage](#usage)
+4. [Usage](#usage)
 
 ## Goal <a name="goal"></a>
 The purpose of this project is to create a self-sufficient portable Minecraft server on an independently controlled piece of hardware. Modern Minecraft servers are usually hard to manage because the host server is unable to stay online 24/7, or, when run with other programs, slow down the server. Backing up is also a prominent issue, and a lot of data is lost due to crashes, malfunctions, or poor online ediquette from users.
 
 With this solution, I hope to create a standalone portable server that runs freely of any other programs, allowing the server full control of the memory and cpu. This standalone solution only needs power and internet, and backups for the previous six months will stored once every week.
-
-Throughout the process, I realized it would be extremely difficult to track the ip of the server, as well as any critical errors or console messages without an interface. I decided to use Firebase functions to create a RESTful API which displays the current ip address of the server, as well as any important messages. This is discussed later in the [software](#software) section.
 
 ## Hardware <a name="hardware"></a>
 
@@ -81,9 +79,22 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     If you are concerned about security, you are rightly concerned! Running scripts directly from the internet is very insecure; however, the reason for this is because with the headless Ubuntu server running on the Raspberry Pi will be more tricky to download all the specified files from this repository, unzip them and place them in the correct locations. It also initializes the services. Feel free to closely examine the specific files for more information. Below is a brief summary of what `install.sh` will do:
       1. Download the `minecraftserver.service` file from this repository and move it to `/etc/systemd/system`.
-      2. Download the `mcserver.sh` file and place it in the same location as the service. This script will be the one that runs every startup. It checks the server version, updates the server if needed, and runs the server.
+      2. Change permissions of the `mcserver.sh` file to ensure it is writable
+      3. Notify the system of the new service file and enable the service
+      4. Download the `mcserver.sh` file and place it in the `/usr/local/bin` directory. This script will be the one that runs every startup. It checks the server version, updates the server if needed, and runs the server.
       
       > Note that the `mcserver.sh` executable allocates 2GB of RAM for the server. Depending on the Pi being used, these settings may need to be changed.
+
+      5. Change the permissions of the `mcserver.sh` file to ensure it is executable
+      6. Download the `mcserverbackup.sh` file and place it in the `/usr/local/bin` directory. This script will backup the folders in the saves folder 7 or more days after the last update.
+
+      > Note that the `mcserverbackup.sh` executable only keeps the 3 most recent backups. All older backups are removed from the system.
+
+      7. Change the permissions of the `mcserver.sh` file to ensure it is executable
+      8. Install anacron for the case of inconsistent uptimes
+      9. Replace default anacrontab with modified version to run weekly backups
+      10. Run the server
+
 
     Once all necessary files are downloaded and in place, the server will begin to run. It is recommended to OP at least one player via the server console once it starts up:
     ```
@@ -93,8 +104,7 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     stop
     ```
-6. At this point I set up the RESTful API in Firebase to record the ip address and other log information. The instructions to set this up can be found in [doc/firebase.md](doc/firebase.md).
-7. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
+6. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
 
 ## Usage <a name="usage"></a>
 
