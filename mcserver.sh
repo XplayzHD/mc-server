@@ -3,6 +3,8 @@
 
 ROOT=~/.mc-server
 verFile=$ROOT/server.version
+ip="$(hostname -I | tr -d '[:space:]'):25565"
+endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
 
 # if this is running for the first time,
 # folder/file creation is required
@@ -64,6 +66,8 @@ fi
 #
 # 4. start the server
 #
+
+curl --silent -X POST -d "ip=$ip&status=online" $endpoint
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
