@@ -4,15 +4,11 @@
 # this script can be downloaded and run via the following command:
 # curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh | sudo bash
 
-# download startup service file
-curl https://raw.githubusercontent.com/bossley9/mc-server/master/minecraftserver.service
+# download startup service file into system d directory
+sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/minecraftserver.service -o /etc/systemd/system/minecraftserver.service
 
 # change permissions of file
-chmod 644 minecraftserver.service
-
-# move startup service file to systemd directory
-sudo mv -v ./minecraftserver.service /etc/systemd/system/
-
+sudo chmod 644 /etc/systemd/system/minecraftserver.service
 
 # notify system of new service file
 sudo systemctl daemon-reload
@@ -24,10 +20,11 @@ while ! [sudo systemctl is-enabled minecraftserver == "enabled"]; do
 done
 
 # download server execution file
-curl https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh
+sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
 
-# change file permissions
-chmod 744 mcserver.sh
+# change file permissions to allow executable
+sudo chmod 754 mcserver.sh
 
 # run server
-./mc-server.sh
+sudo systemctl start minecraftserver.sh
+
