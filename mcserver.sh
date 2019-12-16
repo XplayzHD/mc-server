@@ -13,7 +13,11 @@ touch $verFile
 # 1. get latest vanilla version number
 #
 
-latestVersion="$(curl --silent https://launchermeta.mojang.com/mc/game/version_manifest.json 2>&1 | jq -r '.latest.release')"
+latestVersion="$(curl --silent https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
+latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+")
+
+latestVersion=$latestVersionOld
 
 #
 # 2. check if latest version is higher than the current version
@@ -65,4 +69,4 @@ fi
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
-java -Xmx1024M -Xms1024M -jar server.jar nogui
+#java -Xmx1024M -Xms1024M -jar server.jar nogui
