@@ -15,7 +15,7 @@ sudo systemctl daemon-reload
 sudo systemctl start minecraftserver.service
 
 # enable file for startup
-while ! [sudo systemctl is-enabled minecraftserver == "enabled"]; do
+while ! [[ $(sudo systemctl is-enabled minecraftserver) == "enabled" ]]; do
     sudo systemctl enable minecraftserver
 done
 
