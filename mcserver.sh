@@ -17,8 +17,6 @@ latestVersion="$(curl --silent https://www.minecraft.net/en-us/download/server/ 
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
 latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+")
 
-latestVersion=$latestVersionOld
-
 #
 # 2. check if latest version is higher than the current version
 #
