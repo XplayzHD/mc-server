@@ -12,7 +12,7 @@ The purpose of this project is to create a self-sufficient portable Minecraft se
 
 With this solution, I hope to create a standalone portable server that runs freely of any other programs, allowing the server full control of the memory and cpu. This standalone solution only needs power and internet, and backups for the previous six months will stored once every week.
 
-Throughout the process, I realized it would be extremely difficult to track the ip of the server, as well as any critical errors or console messages without an interface. I decided to use Firebase functions to keep track of this in a Firestore table. This creates a RESTful API endpoint which displays the current ip address of the server, as well as any important messages. This is discussed later in the [software](#software) section.
+Throughout the process, I realized it would be extremely difficult to track the ip of the server, as well as any critical errors or console messages without an interface. I decided to use Firebase functions to create a RESTful API which displays the current ip address of the server, as well as any important messages. This is discussed later in the [software](#software) section.
 
 ## Hardware <a name="hardware"></a>
 
@@ -93,7 +93,7 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     stop
     ```
-6. At this point I set up Firebase functions to record the ip address and other log information. The instructions to set this up can be found in [doc/firebase.md](doc/firebase.md).
+6. At this point I set up the RESTful API in Firebase to record the ip address and other log information. The instructions to set this up can be found in [doc/firebase.md](doc/firebase.md).
 7. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
 
 ## Usage <a name="usage"></a>
