@@ -18,16 +18,21 @@ sudo chmod 644 /etc/systemd/system/minecraftserver.service
 
 # notify system of new service file
 sudo systemctl daemon-reload
-sudo systemctl start minecraftserver.service
+
+echo "enabling startup function"
 
 # enable file for startup
 while ! [[ $(sudo systemctl is-enabled minecraftserver) == "enabled" ]]; do
     sudo systemctl enable minecraftserver
 done
 
+echo "startup function is now enabled"
+
 #
 # 2. Install server executable
 #
+
+echo "downloading server executable..."
 
 # download server execution file
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
@@ -44,11 +49,15 @@ sudo chmod 754 /usr/local/bin/mcserver.sh
 # 3. Setup save file backups
 #
 
+echo "downloading backup executable..."
+
 # download saves backup file
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserverbackup.sh -o /usr/local/bin/mcserverbackup.sh
 
 # change file permissions to allow executable
 sudo chmod 754 /usr/local/bin/mcserverbackup.sh
+
+echo "installing backup functions..."
 
 # install anacron for weekly backups
 sudo apt-get install anacron
@@ -59,6 +68,8 @@ sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab
 #
 # 4. Start Server
 #
+
+echo "starting server..."
 
 # run server
 sudo systemctl start minecraftserver.sh
