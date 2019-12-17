@@ -2,7 +2,7 @@
 #
 # small script to manage minecraft server backups
 
-ROOT=/home/ubuntu/.mc-server/
+ROOT=/home/pi/.mc-server/
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # create time stamp folder and copies worlds into folder
