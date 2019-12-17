@@ -1,8 +1,5 @@
-#
 #/bin/bash
 # downloads and sets up the mc-server service.
-# this script can be downloaded and run via the following command:
-# curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh | sudo bash
 
 #
 # 1. Setup startup server function

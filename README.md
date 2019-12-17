@@ -75,13 +75,16 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
 4. Install Java 8 JDK.
     ```bash
+    sudo apt-get update
     sudo apt-get install openjdk-8-jre-headless
     ```
     You can verify installation with `java -version`.
 5. You will need to setup a Firebase project to run this server. More detailed instructions can be found in [doc/firebase.md](doc/firebase.md).
 6. Before proceeding to this step, make sure you have the Firebase API endpoint url handy. On the Pi server, run `install.sh` from this repository to download the startup service files and server startup. Enter the endpoint url in the command. This will connect your server to the database.
     ```bash
-    curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh | sudo bash -s -- [FirebaseEndpointUrl]
+    curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/install.sh -o install.sh
+    chmod 755 install.sh
+    ./install.sh [FirebaseEndpointUrl]
     ```
     The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine the specific files for more information. Below is a brief summary of what `install.sh` will do:
       1. Download the `minecraftserver.service` file from this repository and move it to `/etc/systemd/system`.
