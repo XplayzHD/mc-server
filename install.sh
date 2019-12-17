@@ -40,7 +40,9 @@ sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserve
 ROOT=~/.mc-server
 
 read -p "$(echo -e "Please specify the Firebase API endpoint you would like to use: ")" urlEndpoint
-echo $urlEndpoint > $ROOT/firebaseEndpoint.txt
+case $urlEndpoint in
+  *) echo $urlEndpoint > $ROOT/firebaseEndpoint.txt
+esac
 
 # change file permissions to allow executable
 sudo chmod 754 /usr/local/bin/mcserver.sh

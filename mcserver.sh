@@ -19,6 +19,8 @@ latestVersion="$(curl --silent https://www.minecraft.net/en-us/download/server/ 
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
 latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+")
 
+echo "latest minecraft version is $latestVersion"
+
 #
 # 2. check if latest version is higher than the current version
 #
@@ -52,11 +54,15 @@ function versionCompare () {
   return 0
 }
 
+echo "comparing latest version to current version..."
+
 versionCompare $latestVersion $currentVersion
 
 if [[ $? == 1 ]]; then # greater than means 1
   echo $latestVersion > $verFile 
   currentVersion=$latestVerion
+
+  echo "installing latest version..."
 
   link="$(curl --silent https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
@@ -68,7 +74,11 @@ fi
 # 4. start the server
 #
 
+echo "POST to url..."
+
 curl --silent -X POST -d "ip=$ip&status=online&mcversion=$currentVersion" $endpoint
+
+echo "starting server."
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
