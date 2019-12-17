@@ -63,7 +63,7 @@ echo "installing backup functions..."
 sudo apt-get install anacron
 
 # replaces default anacron file with modified version
-sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab -o /etc/anacrontab
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab -o /etc/anacrontab
 
 #
 # 4. Start Server
@@ -72,5 +72,5 @@ sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab
 echo "starting server..."
 
 # run server
-sudo systemctl start minecraftserver.sh
+sudo systemctl start minecraftserver
 
