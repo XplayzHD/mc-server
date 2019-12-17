@@ -8,8 +8,10 @@
 # 1. Setup startup server function
 #
 
+echo "downloading startup service..."
+
 # download startup service file into system d directory
-sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/minecraftserver.service -o /etc/systemd/system/minecraftserver.service
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/minecraftserver.service -o /etc/systemd/system/minecraftserver.service
 
 # change permissions of file
 sudo chmod 644 /etc/systemd/system/minecraftserver.service
@@ -28,7 +30,7 @@ done
 #
 
 # download server execution file
-sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
 
 ROOT=~/.mc-server
 
@@ -43,7 +45,7 @@ sudo chmod 754 /usr/local/bin/mcserver.sh
 #
 
 # download saves backup file
-sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/mcserverbackup.sh -o /usr/local/bin/mcserverbackup.sh
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserverbackup.sh -o /usr/local/bin/mcserverbackup.sh
 
 # change file permissions to allow executable
 sudo chmod 754 /usr/local/bin/mcserverbackup.sh
