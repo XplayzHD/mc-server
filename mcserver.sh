@@ -3,7 +3,7 @@
 
 ROOT=~/.mc-server
 verFile=$ROOT/server.version
-ip="$(hostname -I | tr -d '[:space:]'):25565"
+ip="$(dig @resolver1.opendns.com ANY myip.opendns.com +short | tr -d '[:space:]'):25565"
 endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
 
 # if this is running for the first time,
