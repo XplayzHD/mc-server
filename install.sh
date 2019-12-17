@@ -71,4 +71,4 @@ sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/anacron
 echo "starting server..."
 
 # run server
-/usr/local/bin/./mcserver.sh
+sudo /usr/local/bin/./mcserver.sh
