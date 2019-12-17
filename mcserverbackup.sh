@@ -5,6 +5,8 @@
 ROOT=/home/pi/.mc-server/
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
+mkdir -p $ROOT/backup
+
 # create time stamp folder and copies worlds into folder
 mkdir $ROOT/backup/$timestamp
 cp -r $ROOT/saves/* $ROOT/backup/$timestamp/

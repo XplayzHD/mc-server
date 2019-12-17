@@ -113,7 +113,8 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     stop
     ```
-7. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
+7. Open the file `server.properties` in the `.mc-server` folder and change `level-name: world` to `level-name: saves/juicewrld` This allows the backup script to access the correct files.
+8. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
 
 ## Usage <a name="usage"></a>
 
