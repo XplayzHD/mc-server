@@ -4,6 +4,7 @@
 ROOT=/home/pi/.mc-server
 verFile=$ROOT/server.version
 ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
+ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
 endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
 
 # if this is running for the first time,
@@ -76,7 +77,7 @@ fi
 
 echo "POST to url..."
 
-curl -s -X POST -d "ip=$ip&status=online&mcversion=$currentVersion" $endpoint
+curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&mcversion=$currentVersion" $endpoint
 
 echo "starting server."
 

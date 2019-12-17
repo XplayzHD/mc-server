@@ -16,13 +16,14 @@ app.get('/status', (req, res) => {
     let response;
     
     snapshot.forEach((doc) => {
-      const { ip, lastUpdated, mcversion, message, status } = doc.val();
+      const { ip, ipLocal, lastUpdated, mcversion, message, status } = doc.val();
       
       if (!response) {
         response = {
-          ip,
+          ip: ip || '',
+          ipLocal: ipLocal || '',
           lastUpdated,
-          mcversion,
+          mcversion: mcversion || '',
           message: message || '',
           status,
         }
@@ -37,9 +38,9 @@ app.get('/status', (req, res) => {
 
 // POST new status
 app.post('/status', async (req, res) => {
-  const { ip, mcversion, message, status } = req.body;
+  const { ip, ipLocal, mcversion, message, status } = req.body;
   
-  if (ip && mcversion && status) {
+  if (ip && ipLocal && mcversion && status) {
     let errors = [];
     
     // retrieve and remove statuses older than six months
@@ -69,6 +70,7 @@ app.post('/status', async (req, res) => {
     try {
       await statusesRef.push().set({
         ip,
+        ipLocal,
         mcversion,
         message: message || '',
         status,
