@@ -35,7 +35,10 @@ echo "downloading server executable..."
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
 
 ROOT=~/.mc-server
+mkdir -p $ROOT
 
+# sanity check
+touch $ROOT/firebaseEndpoint.txt 
 echo $1 > $ROOT/firebaseEndpoint.txt
 
 # change file permissions to allow executable
