@@ -16,11 +16,12 @@ app.get('/status', (req, res) => {
     let response;
     
     snapshot.forEach((doc) => {
-      const { ip, mcversion, message, status } = doc.val();
+      const { ip, lastUpdated, mcversion, message, status } = doc.val();
       
       if (!response) {
         response = {
           ip,
+          lastUpdated,
           mcversion,
           message: message || '',
           status,

@@ -7,6 +7,7 @@ Type = forking
 ExecStart = /usr/local/bin/./mcserver.sh start
 ExecStop = /usr/local/bin/./mcserver.sh stop
 ExecReload = /usr/local/bin/./mcserver.sh reload
+TimeoutSec = 500
 
 [Install]
 WantedBy=multi-user.target
