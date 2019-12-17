@@ -1,9 +1,10 @@
 #!/bin/bash
 # this script will run on startup.
 
-ROOT=~/.mc-server
+ROOT=/home/pi/.mc-server
 verFile=$ROOT/server.version
-ip="$(dig @resolver1.opendns.com ANY myip.opendns.com +short | tr -d '[:space:]'):25565"
+ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
+ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
 endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
 
 # if this is running for the first time,
@@ -60,11 +61,11 @@ versionCompare $latestVersion $currentVersion
 
 if [[ $? == 1 ]]; then # greater than means 1
   echo $latestVersion > $verFile 
-  currentVersion=$latestVerion
+  currentVersion="$(echo $latestVerion)"
 
   echo "installing latest version..."
 
-  link="$(curl --silent https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+  link="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
 
   curl $link -o $ROOT/server.jar
@@ -76,7 +77,7 @@ fi
 
 echo "POST to url..."
 
-curl --silent -X POST -d "ip=$ip&status=online&mcversion=$currentVersion" $endpoint
+curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&mcversion=$currentVersion" $endpoint
 
 echo "starting server."
 
