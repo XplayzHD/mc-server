@@ -71,5 +71,4 @@ sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/anacron
 echo "starting server..."
 
 # run server
-sudo systemctl start minecraftserver
-
+/usr/local/bin/./mcserver.sh
