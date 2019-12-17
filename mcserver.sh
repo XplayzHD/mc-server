@@ -1,9 +1,9 @@
 #!/bin/bash
 # this script will run on startup.
 
-ROOT=~/.mc-server
+ROOT=/home/pi/.mc-server
 verFile=$ROOT/server.version
-ip="$(curl ifconfig.me | tr -d '[:space:]'):25565"
+ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
 endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
 
 # if this is running for the first time,

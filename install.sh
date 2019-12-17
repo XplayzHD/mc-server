@@ -34,7 +34,7 @@ echo "downloading server executable..."
 # download server execution file
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
 
-ROOT=~/.mc-server
+ROOT=/home/pi/.mc-server
 mkdir -p $ROOT
 
 # sanity check
