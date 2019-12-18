@@ -73,7 +73,7 @@ sudo chmod 754 /usr/local/bin/mcserverbackup.sh
 
 echo -e "${LB}installing backup function...${NC}"
 
-sudo apt-get install anacron
+sudo apt-get install anacron screen
 # replace default anacron file with modified version
 sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab -o /etc/anacrontab
 

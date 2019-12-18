@@ -88,8 +88,8 @@ echo -e "${LB}sending data to REST endpoint...${NC}"
 
 curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&mcversion=$currentVersion" $endpoint
 
-echo "${GN}starting server.${NC}"
+echo -e "${GN}starting server.${NC}"
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
-java -Xmx2560M -Xms1024M -jar server.jar nogui
+screen -dmS minecraft java -Xmx2560M -Xms1024M -jar server.jar nogui
