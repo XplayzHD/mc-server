@@ -14,6 +14,8 @@ With this solution, I hope to create a standalone portable server that runs free
 
 Throughout the process, I realized there is no set way of determining the ip address or status of the server. I decided to use [Firebase functions](https://firebase.google.com/docs/functions) to store the server status information in a simple database. An end-user can determine the current ip address or status of the server by visiting this Firebase endpoint. Thus, you will need to create a Firebase project to run this server setup (more information in the [software section](doc/software.md)).
 
+> These settings are only guaranteed to work with the hardware setup specified in the [hardware section](doc/hardware.md). I cannot verify these settings will work with a different Raspberry Pi model, no heatsink, or without the specific power supply.
+
 ## Usage <a name="usage"></a>
 
 1. Install Java 8 JDK.
