@@ -30,13 +30,15 @@ echo -e "${GN}server startup service is now enabled.${NC}"
 #
 
 echo -e "${LB}setting up server directory...${NC}"
-
 mkdir -p $ROOT
 
-echo -e "${LB}storing data endpoint...${NC}"
+# since redirection is executed by the shell, use tee for sudo privileges
 
-touch $ROOT/dataEndpoint.txt # sanity check
-echo $1 > $ROOT/dataEndpoint.txt
+echo -e "${LB}saving root directory...${NC}"
+echo $ROOT | sudo tee /usr/local/etc/mcserver-root > /dev/null
+
+echo -e "${LB}storing data endpoint...${NC}"
+echo $1 | sudo tee $ROOT/server.endpoint > /dev/null
 
 echo -e "${GN}server directory initialized.${NC}"
 

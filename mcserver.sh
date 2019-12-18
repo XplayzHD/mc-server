@@ -6,16 +6,20 @@ NC='\033[0m'
 
 # constants
 
-ROOT=/home/pi/.mc-server
-verFile=$ROOT/server.version
+ROOT="$(cat /usr/local/etc/mcserver-root)"
+VER_FILE=$ROOT/server.version
+
+# determine ips
+
 ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
 ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
-endpoint="$(cat $ROOT/dataEndpoint.txt)"
+
+endpoint="$(cat $ROOT/server.endpoint)"
 
 # if this is running for the first time,
 # folder/file creation is required
 mkdir -p $ROOT/backups
-touch $verFile
+touch $VER_FILE
 
 #
 # get latest vanilla version
@@ -33,7 +37,7 @@ echo -e "${GN}latest minecraft version is $latestVersion${NC}"
 # check if latest version is higher than the current version
 #
 
-currentVersion="$(cat $verFile)"
+currentVersion="$(cat $VER_FILE)"
 
 rx='^([0-9]+\.){0,2}(\*|[0-9]+)$'
 if ! [[ $currentVersion =~ $rx ]]; then currentVersion="0.0.0"; fi
@@ -65,7 +69,7 @@ echo -e "${LB}comparing latest version to current version...${NC}"
 versionCompare $latestVersion $currentVersion
 
 if [[ $? == 1 ]]; then # greater than means 1
-  echo $latestVersion > $verFile 
+  echo $latestVersion > $VER_FILE
   currentVersion="$(echo $latestVerion)"
 
   echo -e "${LB}installing latest version...${NC}"
@@ -88,4 +92,4 @@ echo "${GN}starting server.${NC}"
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
-java -Xmx2560M -Xms1024M -jar server.jar nogui
+# java -Xmx2560M -Xms1024M -jar server.jar nogui
