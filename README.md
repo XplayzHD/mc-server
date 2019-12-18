@@ -10,7 +10,7 @@ A portable server solution for [Minecraft](https://www.minecraft.net/)
 ## Goal <a name="goal"></a>
 The purpose of this project is to create a self-sufficient portable Minecraft server on an independently controlled piece of hardware. Modern Minecraft servers are usually hard to manage because the host server is unable to stay online 24/7, or, when run with other programs, slow down the server. Backing up is also a prominent issue, and a lot of data is lost due to crashes, malfunctions, or poor online ediquette from users.
 
-With this solution, I hope to create a standalone portable server that runs freely of any other programs, allowing the server full control of the memory and cpu. This standalone solution only needs power and internet, and backups for the previous six months will stored once every week.
+With this solution, I hope to create a standalone portable server that runs freely of any other programs, allowing the server full control of the memory and cpu. This standalone solution only needs power and internet, and backups for the previous 3 weeks will stored (one backup per week).
 
 Throughout the process, I realized there is no set way of determining the ip address or status of the server. I decided to use [Firebase functions](https://firebase.google.com/docs/functions) to store the server status information in a simple database. An end-user can determine the current ip address or status of the server by visiting this Firebase endpoint. Thus, you will need to create a Firebase project to run this server setup (more information in the [software section](#software)).
 
@@ -86,24 +86,10 @@ The steps below are the steps I followed to setup up the operating system, backu
     chmod 755 install.sh
     ./install.sh [FirebaseEndpointUrl]
     ```
-    The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine the specific files for more information. Below is a brief summary of what `install.sh` will do:
-      1. Download the `minecraftserver.service` file from this repository and move it to `/etc/systemd/system`.
-      2. Change permissions of the `mcserver.sh` file to ensure it is writable
-      3. Notify the system of the new service file and enable the service
-      4. Download the `mcserver.sh` file and place it in the `/usr/local/bin` directory. This script will be the one that runs every startup. It checks the server version, updates the server if needed, and runs the server.
+    The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine `install.sh` for more information.
+    The endpoint is saved under `YourUserHomeDirectory/.mc-server/server.endpoint`. Usually this is `/home/pi/.mc-server/server.endpoint`. You may update the endpoint in the future, and a restart of the server will be required for the new endpoint to take effect.
       
-      > Note that the `mcserver.sh` executable allocates 2GB of RAM for the server. Depending on the Pi being used, these settings may need to be changed.
-
-      5. Change the permissions of the `mcserver.sh` file to ensure it is executable
-      6. Download the `mcserverbackup.sh` file and place it in the `/usr/local/bin` directory. This script will backup the folders in the saves folder 7 or more days after the last update.
-
-      > Note that the `mcserverbackup.sh` executable only keeps the 3 most recent backups. All older backups are removed from the system.
-
-      7. Change the permissions of the `mcserver.sh` file to ensure it is executable
-      8. Install anacron for the case of inconsistent uptimes
-      9. Replace default anacrontab with modified version to run weekly backups
-      10. Run the server
-
+      > By default, the `mcserver.sh` executable allocates 2.5GB of RAM for the server. Depending on the Pi being used, these settings can be changed in `mcserver.sh`.
 
     Once all necessary files are downloaded and in place, the server will begin to run. It is recommended to OP at least one player via the server console once it starts up:
     ```
@@ -113,16 +99,12 @@ The steps below are the steps I followed to setup up the operating system, backu
     ```
     stop
     ```
-7. Open the file `server.properties` in the `.mc-server` folder and change `level-name: world` to `level-name: saves/juicewrld` This allows the backup script to access the correct files.
-8. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional!
+7. Open the file `server.properties` in the `.mc-server` folder and change `level-name: world` to `level-name: saves/WorldNameHere` This allows the backup script to access the correct files.
+8. Restart the Pi by unplugging and replugging the Pi. The server should now be fully functional.
 
 ## Usage <a name="usage"></a>
 
 - Plugging in the Pi will automatically start the server. The Pi should be connected to ethernet beforehand. 
 - Navigating to the public Firebase endpoint created above will display the current server ip and status information of the server.
 - When shutting down the server, it is recommended to save the world with the command `/save-all` in the Minecraft console before unplugging the Pi. There is no guarantee the server will have saved the latest updates otherwise.
-
-<!--
-If some clients cannot connect to the server, then you need to exit the JAVA program by pressing CTRL+Z. Open the file 'server.properties' with an editor such as 'nano'. Remember to be root. Edit the line 'online-mode'. It should be set to 'true'. Change this to 'false' and save the file. Reboot the system and start the Minecraft Server. Have the clients reconnect to the server and everything should be working.
--->
 
