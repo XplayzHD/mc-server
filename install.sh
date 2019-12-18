@@ -7,6 +7,15 @@ NC='\033[0m'
 ROOT="$(echo $HOME/.mc-server)"
 
 #
+# optimizing environment
+#
+
+echo -e "${LB}optimizing environment...${NC}"
+
+echo -e "${LB}disabling bluetooth...${NC}"
+sudo service bluetooth stop
+
+#
 # server startup service
 #
 
