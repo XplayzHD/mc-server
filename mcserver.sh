@@ -92,4 +92,4 @@ echo -e "${GN}starting server.${NC}"
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
-java -Xmx2560M -Xms1024M -jar server.jar nogui
+java -Xmx2560M -Xms1024M -jar server.jar nogui &
