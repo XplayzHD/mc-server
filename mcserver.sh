@@ -1,11 +1,16 @@
 #!/bin/bash
-# this script will run on startup.
+
+LB='\033[1;94m'
+GN='\033[1;32m'
+NC='\033[0m'
+
+# constants
 
 ROOT=/home/pi/.mc-server
 verFile=$ROOT/server.version
 ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
 ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
-endpoint="$(cat $ROOT/firebaseEndpoint.txt)"
+endpoint="$(cat $ROOT/dataEndpoint.txt)"
 
 # if this is running for the first time,
 # folder/file creation is required
@@ -13,28 +18,28 @@ mkdir -p $ROOT/backups
 touch $verFile
 
 #
-# 1. get latest vanilla version number
+# get latest vanilla version
 #
 
-latestVersion="$(curl --silent https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+echo -e "${LB}getting the latest vanilla version...${NC}"
+
+latestVersion="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
 latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+")
 
-echo "latest minecraft version is $latestVersion"
+echo -e "${GN}latest minecraft version is $latestVersion${NC}"
 
 #
-# 2. check if latest version is higher than the current version
+# check if latest version is higher than the current version
 #
 
 currentVersion="$(cat $verFile)"
 
 rx='^([0-9]+\.){0,2}(\*|[0-9]+)$'
-if ! [[ $currentVersion =~ $rx ]]; then
-  currentVersion="0.0.0" 
-fi
+if ! [[ $currentVersion =~ $rx ]]; then currentVersion="0.0.0"; fi
 
 #
-# 3. if latest version > current version, update current version and replace the current server
+# if latest version > current version, update current version and replace the current server
 #
 
 function versionCompare () {
@@ -55,7 +60,7 @@ function versionCompare () {
   return 0
 }
 
-echo "comparing latest version to current version..."
+echo -e "${LB}comparing latest version to current version...${NC}"
 
 versionCompare $latestVersion $currentVersion
 
@@ -63,7 +68,7 @@ if [[ $? == 1 ]]; then # greater than means 1
   echo $latestVersion > $verFile 
   currentVersion="$(echo $latestVerion)"
 
-  echo "installing latest version..."
+  echo -e "${LB}installing latest version...${NC}"
 
   link="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
@@ -72,14 +77,14 @@ if [[ $? == 1 ]]; then # greater than means 1
 fi
 
 #
-# 4. start the server
+# start the server
 #
 
-echo "POST to url..."
+echo -e "${LB}sending data to REST endpoint...${NC}"
 
 curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&mcversion=$currentVersion" $endpoint
 
-echo "starting server."
+echo "${GN}starting server.${NC}"
 
 cd $ROOT
 echo "eula=true" > $ROOT/eula.txt
