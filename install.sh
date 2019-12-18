@@ -1,74 +1,77 @@
 #/bin/bash
-# downloads and sets up the mc-server service.
+
+LB='\033[1;94m'
+GN='\033[1;32m'
+NC='\033[0m'
+
+ROOT="$(echo $HOME/.mc-server)"
 
 #
-# 1. Setup startup server function
+# server startup service
 #
 
-echo "downloading startup service..."
+echo -e "${LB}downloading the server startup service from the repository...${NC}"
 
-# download startup service file into system d directory
-sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/minecraftserver.service -o /etc/systemd/system/minecraftserver.service
-
-# change permissions of file
+sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/minecraftserver.service -o /etc/systemd/system/minecraftserver.service
 sudo chmod 644 /etc/systemd/system/minecraftserver.service
 
-# notify system of new service file
 sudo systemctl daemon-reload
 
-echo "enabling startup function"
+echo -e "${LB}enabling the server startup service...${NC}"
 
-# enable file for startup
 while ! [[ $(sudo systemctl is-enabled minecraftserver) == "enabled" ]]; do
-    sudo systemctl enable minecraftserver
+  sudo systemctl enable minecraftserver
 done
 
-echo "startup function is now enabled"
+echo -e "${GN}server startup service is now enabled.${NC}"
 
 #
-# 2. Install server executable
+# server directory
 #
 
-echo "downloading server executable..."
+echo -e "${LB}setting up server directory...${NC}"
 
-# download server execution file
-sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
-
-ROOT=/home/pi/.mc-server
 mkdir -p $ROOT
 
-# sanity check
-touch $ROOT/firebaseEndpoint.txt 
-echo $1 > $ROOT/firebaseEndpoint.txt
+echo -e "${LB}storing data endpoint...${NC}"
 
-# change file permissions to allow executable
+touch $ROOT/dataEndpoint.txt # sanity check
+echo $1 > $ROOT/dataEndpoint.txt
+
+echo -e "${GN}server directory initialized.${NC}"
+
+#
+# server executable
+#
+
+echo -e "${LB}downloading server executable...${NC}"
+
+sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/mcserver.sh -o /usr/local/bin/mcserver.sh
 sudo chmod 754 /usr/local/bin/mcserver.sh
 
+echo -e "${GN}server executable initialized.${NC}"
+
 #
-# 3. Setup save file backups
+# save backups
 #
 
-echo "downloading backup executable..."
+echo -e "${LB}downloading save backup executable...${NC}"
 
-# download saves backup file
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/mcserverbackup.sh -o /usr/local/bin/mcserverbackup.sh
-
-# change file permissions to allow executable
 sudo chmod 754 /usr/local/bin/mcserverbackup.sh
 
-echo "installing backup functions..."
+echo -e "${LB}installing backup function...${NC}"
 
-# install anacron for weekly backups
 sudo apt-get install anacron
-
-# replaces default anacron file with modified version
-sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab -o /etc/anacrontab
+# replace default anacron file with modified version
+sudo curl https://raw.githubusercontent.com/bossley9/mc-server/master/anacrontab -o /etc/anacrontab
 
 #
-# 4. Start Server
+# start server
 #
 
-echo "starting server..."
+echo -e "${GN}finished!${NC}"
+echo -e "${LB}starting server...${NC}"
 
-# run server
 sudo /usr/local/bin/./mcserver.sh
+
