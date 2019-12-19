@@ -32,14 +32,14 @@ echo -e "blacklist snd_bcm2835" | sudo tee -a /etc/modprobe.d/alsa-blacklist.con
 # https://www.cnx-software.com/2019/07/26/how-to-overclock-raspberry-pi-4/
 # https://hothardware.com/reviews/hot-clocked-pi-raspberry-pi-4-benchmarked-at-214-ghz
 echo -e "\tsetting up cpu overclock..."
-sudo apt-get update
-sudo apt-get dist-upgrade
+sudo apt-get update && sudo apt-get dist-upgrade
+# experimental releases for (possibly) better cpu clocking capacities
 sudo rpi-update
-overclock="arm_freq=2147\nover_voltage=6"
+overclockfreq=2147
+overclockvoltage=6
 
-if ! awk "/$overclock/" /boot/config.txt; then
-  echo -e "$overclock" | sudo tee -a /boot/config.txt 1>/dev/null
-fi
+echo "$(sed "s/arm_freq=.*/arm_freq=$overclockcpu/g" /boot/config.txt)" | sudo tee /boot/config.txt 1>/dev/null
+echo "$(sed "s/over_voltage=.*/over_voltage=$overclockvoltage/g" /boot/config.txt)" | sudo tee /boot/config.txt 1>/dev/null
 
 echo -e "${GN}done.${NC}"
 
