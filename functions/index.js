@@ -40,7 +40,7 @@ app.get('/status', (req, res) => {
 app.post('/status', async (req, res) => {
   const { ip, ipLocal, mcversion, message, status } = req.body;
   
-  if (ip && ipLocal && mcversion && status) {
+  if (ip && ipLocal && status) {
     let errors = [];
     
     // retrieve and remove statuses older than six months
@@ -71,7 +71,7 @@ app.post('/status', async (req, res) => {
       await statusesRef.push().set({
         ip,
         ipLocal,
-        mcversion,
+        mcversion: mcversion || '',
         message: message || '',
         status,
         lastUpdated: new Date().toISOString(),
@@ -86,7 +86,7 @@ app.post('/status', async (req, res) => {
     });
 
   } 
-  else res.send({ error: 'ip, mcversion, or status is null.' });
+  else res.send({ error: 'ip or status is null.' });
 
 });
 

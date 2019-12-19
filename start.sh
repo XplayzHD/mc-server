@@ -14,6 +14,26 @@ NC='\033[0m'
 EXECDIR=/usr/local/bin
 ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE=$ROOT/server.version
+numBackups=10
+
+#
+# backing up server
+#
+
+echo -e "${LB}backing up server...${NC}"
+# sanity check
+mkdir -p $ROOTDIR/backup
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+
+# copy worlds into timestampped folder
+mkdir $ROOTDIR/backup/$timestamp
+cp -r $ROOTDIR/saves/* $ROOTDIR/backup/$timestamp/
+
+# delete old worlds
+numDirectories=$(ls -l | grep -c ^d)
+if [[ $numDirectories > $numBackups ]]; then
+	rm -r $(ls | head -n $((numDirectories-numBackups)) )
+fi
 
 #
 # server prechecking
@@ -27,8 +47,6 @@ sudo sh -c "echo 1 > /proc/sys/vm/drop_caches"
 sync
 
 echo -e "\tverifying install location..."
-# sanity check
-mkdir -p $ROOTDIR/backup
 touch $VERFILE
 
 echo -e "\tverifying EULA terms..."
@@ -99,12 +117,14 @@ fi
 #
 
 endpoint="$(cat $ROOTDIR/server.endpoint)"
+if ! [ -z "$endpoint" ]; then
+  echo -e "${LB}sending data to endpoint...${NC}"
+  
+  ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
+  ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
 
-echo -e "endpoint is [$endpoint]"
-# TODO ips if endpoint exists
-# echo -e "${LB}sending data to endpoint...${NC}"
-
-# curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&mcversion=$currentVersion" $endpoint
+  curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$currentVersion" $endpoint
+fi
 
 #
 # starting server

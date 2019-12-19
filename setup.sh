@@ -143,7 +143,6 @@ esac
 # system reboot
 #
 
-# read -p "$(echo -e "${YW}The system needs to reboot for the server to run properly. Reboot? [Y/N] ${NC}")" bReboot
 echo -e "${YW}The system needs to reboot for the server to run properly. Reboot? [Y/N] ${NC}"
 read bReboot
 case $bReboot in
