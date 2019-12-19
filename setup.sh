@@ -27,7 +27,9 @@ sudo systemctl disable bluetooth.service
 
 # https://www.instructables.com/id/Disable-the-Built-in-Sound-Card-of-Raspberry-Pi/
 echo -e "\tdisabling alsa sound..."
-echo -e "blacklist snd_bcm2835" | sudo tee -a /etc/modprobe.d/alsa-blacklist.conf 1>/dev/null
+blacklistAlsa="blacklist snd_bcm2835"
+alsaConf=/etc/modprobe.d/alsa-blacklist.conf
+grep -q "$blacklistAlsa" $alsaConf 2>/dev/null || echo "$blacklistAlsa" | sudo tee -a $alsaConf 1>/dev/null
 
 # https://www.cnx-software.com/2019/07/26/how-to-overclock-raspberry-pi-4/
 # https://hothardware.com/reviews/hot-clocked-pi-raspberry-pi-4-benchmarked-at-214-ghz
@@ -36,14 +38,14 @@ sudo apt-get update && sudo apt-get dist-upgrade
 # experimental releases for (possibly) better cpu clocking capacities
 sudo rpi-update
 
-CONFIGDIR=/boot/config.txt
+bootConf=/boot/config.txt
 overclockfreq=2147
 overclockvoltage=6
 
-if grep -q "arm_freq" $CONFIGDIR; then
-  sed "s/.*arm_freq.*/arm_freq=$overclockfreq/g" $CONFIGDIR | sudo tee $CONFIGDIR 1>/dev/null
+if grep -q "arm_freq" $bootConf; then
+  sed "s/.*arm_freq.*/arm_freq=$overclockfreq/g" $bootConf | sudo tee $bootConf 1>/dev/null
 else
-  echo "arm_freq=$overclockfreq" | sudo tee -a $CONFIGDIR 1>/dev/null
+  echo "arm_freq=$overclockfreq" | sudo tee -a $bootConf 1>/dev/null
 fi
 
 if grep -q "over_voltage" $CONFIGDIR; then
