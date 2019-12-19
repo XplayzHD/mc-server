@@ -105,9 +105,8 @@ echo -e "${GN}done.${NC}"
 
 echo -e "${YW}enter a name for your world. Default is ${LB}ServerName${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
 read worldName
-if [[ ${#worldName} == 0 ]]; then worldName="ServerName"; fi
-
-echo $worldName | sudo tee $ROOTDIR/server.name 1>/dev/null
+test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerName"
+! test -z "$worldName" && echo "$worldName" | sudo tee $ROOTDIR/server.name 1>/dev/null
 
 #
 # updating server scripts 
