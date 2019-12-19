@@ -93,11 +93,12 @@ echo -e "\tsaving server directory path..."
 echo $ROOTDIR | sudo tee $EXECDIR/minecraftrootpath.txt 1>/dev/null
 
 echo -e "\tstoring endpoint url..."
-sudo truncate -s 0 $ROOTDIR/server.endpoint
-echo -e "${YW}enter an endpoint url or press ENTER to continue without one. This can always be updated later in $ROOTDIR/server.endpoint:${NC}"
+echo -e "${YW}enter an endpoint url or press ENTER to continue with any previously entered url. This can always be updated later in $ROOTDIR/server.endpoint:${NC}"
 read endpoint
-if [[ ${#endpoint} > 0 ]]; then
+if [[ ! -z $endpoint ]]; then
   echo $endpoint | sudo tee $ROOTDIR/server.endpoint 1>/dev/null
+else
+  sudo touch $ROOTDIR/server.endpoint
 fi
 
 echo -e "${GN}done.${NC}"
