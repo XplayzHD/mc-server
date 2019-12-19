@@ -71,10 +71,10 @@ echo -e "${LB}setting up server directory...${NC}"
 
 echo -e "\tcreating directory..."
 sudo mkdir -p $ROOTDIR
-sudo mkdir -p $EXECDIR/minecraft
+sudo mkdir -p $EXECDIR
 
 echo -e "\tsaving server directory path..."
-echo $ROOTDIR | sudo tee $EXECDIR/minecraft/rootpath.txt 1>/dev/null
+echo $ROOTDIR | sudo tee $EXECDIR/minecraftrootpath.txt 1>/dev/null
 
 echo -e "\tstoring endpoint url..."
 sudo truncate -s 0 $ROOTDIR/server.endpoint
@@ -88,9 +88,7 @@ echo -e "${GN}done.${NC}"
 
 echo -e "${YW}enter a name for your world. Default is ${LB}ServerName${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
 read worldName
-if [[ ${#worldName} > 0 ]]; then
-  worldName="ServerName"
-fi
+if [[ ${#worldName} > 0 ]]; then worldName="ServerName"; fi
 
 echo $worldName | sudo tee $ROOTDIR/server.name 1>/dev/null
 
@@ -101,18 +99,18 @@ echo $worldName | sudo tee $ROOTDIR/server.name 1>/dev/null
 echo -e "${LB}updating server scripts...${NC}"
 
 echo -e "\tremoving old scripts..."
-sudo rm $EXECDIR/minecraft/start.sh 2>/dev/null
-sudo rm $EXECDIR/minecraft/stop.sh 2>/dev/null
-sudo rm $EXECDIR/minecraft/restart.sh 2>/dev/null
+sudo rm $EXECDIR/minecraftstart.sh 2>/dev/null
+sudo rm $EXECDIR/minecraftstop.sh 2>/dev/null
+sudo rm $EXECDIR/minecraftrestart.sh 2>/dev/null
 
 echo -e "\tretrieving new scripts..."
 # TODO update urls
-sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/start.sh -o $EXECDIR/minecraft/start.sh
-sudo chmod 754 $EXECDIR/minecraft/start.sh
-sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/stop.sh -o $EXECDIR/minecraft/stop.sh
-sudo chmod 754 $EXECDIR/minecraft/stop.sh
-sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/restart.sh -o $EXECDIR/minecraft/restart.sh
-sudo chmod 754 $EXECDIR/minecraft/restart.sh
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/start.sh -o $EXECDIR/minecraftstart.sh
+sudo chmod 754 $EXECDIR/minecraftstart.sh
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/stop.sh -o $EXECDIR/minecraftstop.sh
+sudo chmod 754 $EXECDIR/minecraftstop.sh
+sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/restart.sh -o $EXECDIR/minecraftrestart.sh
+sudo chmod 754 $EXECDIR/minecraftrestart.sh
 
 echo -e "${GN}done.${NC}"
 
@@ -148,7 +146,7 @@ echo -e "${YW}automatically reboot and update server at 4AM daily? This can alwa
 read bAutoReboot
 case $bAutoReboot in
   [Yy]*)
-    croncmd=$EXECDIR/minecraft/restart.sh
+    croncmd=$EXECDIR/minecraftrestart.sh
     cronjob="0 4 * * * $croncmd"
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
     ;;

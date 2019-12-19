@@ -12,7 +12,7 @@ YW='\033[1;33m'
 NC='\033[0m'
 
 EXECDIR="/usr/local/bin"
-ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
+ROOTDIR="$(cat $EXECDIR/minecraftrootpath.txt)"
 VERFILE="$ROOTDIR/server.version"
 numBackups=10
 
@@ -142,7 +142,7 @@ fi
 # starting server
 #
 
-echo -e "\n${GN}starting server.${NC} To view server type ${LB}screen -r minecraft${NC} and to minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
+echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
 # allocate 2.5GB of memory maximum
 screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui

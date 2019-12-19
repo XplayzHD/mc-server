@@ -11,7 +11,7 @@ GN='\033[1;32m'
 NC='\033[0m'
 
 EXECDIR=/usr/local/bin
-ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
+ROOTDIR="$(cat $EXECDIR/minecraftrootpath.txt)"
 
 #
 # precheck
@@ -19,7 +19,7 @@ ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 
 # verify server is running
 if ! screen -list | grep -q "minecraft"; then
-  echo -e "${RD}server is not currently running. Invalid restart.${NC}"
+  echo -e "${RD}server is not currently running (invalid stop)${NC}"
   exit 1
 fi
 
@@ -62,5 +62,5 @@ if screen -list | grep -q "minecraft"; then
   screen -S minecraft -X quit
 fi
 
-echo "${GN}server stopped.${NC}"
+echo -e "${GN}server stopped.${NC}"
 sync
