@@ -15,8 +15,6 @@ EXECDIR=/usr/local/bin
 ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE=$ROOT/server.version
 
-endpoint="$(cat $ROOTDIR/server.endpoint)"
-
 #
 # server prechecking
 #
@@ -99,6 +97,8 @@ fi
 #
 # sending data to endpoint
 #
+
+endpoint="$(cat $ROOTDIR/server.endpoint)"
 
 echo -e "endpoint is [$endpoint]"
 # TODO ips if endpoint exists

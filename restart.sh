@@ -36,7 +36,7 @@ screen -Rd minecraft -X stuff "say server will restart in 5 seconds.$(printf '\r
 sleep 5s
 
 screen -Rd minecraft -X stuff "say closing server.$(printf '\r')"
-screen -Rd minecraft -X stuff "stop $(printf '\r')"
+screen -Rd minecraft -X stuff "stop$(printf '\r')"
 
 # wait 30 seconds for server to close
 
