@@ -35,11 +35,22 @@ echo -e "\tsetting up cpu overclock..."
 sudo apt-get update && sudo apt-get dist-upgrade
 # experimental releases for (possibly) better cpu clocking capacities
 sudo rpi-update
+
+CONFIGDIR=/boot/config.txt
 overclockfreq=2147
 overclockvoltage=6
 
-echo "$(sed "s/arm_freq=.*/arm_freq=$overclockcpu/g" /boot/config.txt)" | sudo tee /boot/config.txt 1>/dev/null
-echo "$(sed "s/over_voltage=.*/over_voltage=$overclockvoltage/g" /boot/config.txt)" | sudo tee /boot/config.txt 1>/dev/null
+if grep -q "arm_freq" $CONFIGDIR; then
+  sed "s/.*arm_freq.*/arm_freq=$overclockfreq/g" $CONFIGDIR | sudo tee $CONFIGDIR 1>/dev/null
+else
+  echo "arm_freq=$overclockfreq" | sudo tee -a $CONFIGDIR 1>/dev/null
+fi
+
+if grep -q "over_voltage" $CONFIGDIR; then
+  sed "s/.*over_voltage.*/over_voltage=$overclockvoltage/g" $CONFIGDIR | sudo tee $CONFIGDIR 1>/dev/null
+else
+  echo "over_voltage=$overclockvoltage" | sudo tee -a $CONFIGDIR 1>/dev/null
+fi
 
 echo -e "${GN}done.${NC}"
 
