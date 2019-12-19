@@ -57,7 +57,9 @@ sudo chmod 644 $SERVICEDIR/minecraft.service
 sudo systemctl daemon-reload
 
 echo -e "\tenabling the startup service..."
-sudo systemctl enable minecraft
+while ! [[ $(sudo systemctl is-enabled minecraft) == "enabled" ]]; do
+  sudo systemctl enable minecraft
+done
 
 echo -e "${GN}done.${NC}"
 
@@ -76,13 +78,21 @@ echo $ROOTDIR | sudo tee $EXECDIR/minecraft/rootpath.txt 1>/dev/null
 
 echo -e "\tstoring endpoint url..."
 sudo truncate -s 0 $ROOTDIR/server.endpoint
-echo -e "${YW}enter an endpoint url or press ENTER to continue without one (this can always be updated later in $ROOTDIR/server.endpoint):\n${NC}"
+echo -e "${YW}enter an endpoint url or press ENTER to continue without one. This can always be updated later in $ROOTDIR/server.endpoint:${NC}"
 read endpoint
 if [[ ${#endpoint} > 0 ]]; then
   echo $endpoint | sudo tee $ROOTDIR/server.endpoint 1>/dev/null
 fi
 
 echo -e "${GN}done.${NC}"
+
+echo -e "${YW}enter a name for your world. Default is ${LB}ServerName${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
+read worldName
+if [[ ${#worldName} > 0 ]]; then
+  worldName="ServerName"
+fi
+
+echo $worldName | sudo tee $ROOTDIR/server.name 1>/dev/null
 
 #
 # updating server scripts 
@@ -134,7 +144,7 @@ fi
 echo -e "${LB}configuring automatic reboot...${NC}"
 
 echo -e "${LB}current system time is $(date)."
-echo -e "${YW}automatically reboot and update server at 4AM daily? You can always change this via crontab -e. [Y/N]"
+echo -e "${YW}automatically reboot and update server at 4AM daily? This can always be changed via crontab -e. [Y/N]${NC}"
 read bAutoReboot
 case $bAutoReboot in
   [Yy]*)

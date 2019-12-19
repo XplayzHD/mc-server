@@ -11,10 +11,22 @@ GN='\033[1;32m'
 YW='\033[1;33m'
 NC='\033[0m'
 
-EXECDIR=/usr/local/bin
+EXECDIR="/usr/local/bin"
 ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
-VERFILE=$ROOT/server.version
+VERFILE="$ROOTDIR/server.version"
 numBackups=10
+
+#
+# precheck
+#
+
+# set saves folder
+sudo mkdir -p $ROOTDIR/saves
+sudo touch $ROOTDIR/server.properties
+# sanity check
+sudo touch $ROOTDIR/server.name
+serverProperties="$(sed "s/level-name=.*/level-name=saves\/$(cat $ROOTDIR\/server\.name)/g" $ROOTDIR/server.properties)"
+echo "$serverProperties" | sudo tee $ROOTDIR/server.properties 1>/dev/null
 
 #
 # backing up server
@@ -27,7 +39,7 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # copy worlds into timestampped folder
 mkdir $ROOTDIR/backup/$timestamp
-cp -r $ROOTDIR/saves/* $ROOTDIR/backup/$timestamp/
+cp -r $ROOTDIR/saves/* $ROOTDIR/backup/$timestamp/ 2>/dev/null
 
 # delete old worlds
 numDirectories=$(ls -l | grep -c ^d)
@@ -57,9 +69,9 @@ echo "eula=true" > $ROOTDIR/eula.txt
 # getting latest vanilla version
 #
 
-echo -e "$\tgetting the latest vanilla version..."
+echo -e "\tgetting the latest vanilla version..."
 
-latestVersion="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+latestVersion="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
 latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+")
 
@@ -109,7 +121,7 @@ if [[ $? == 1 ]]; then # greater than means 1
   link="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
 
-  curl $link -o $ROOT/server.jar
+  curl $link -o $ROOTDIR/server.jar
 fi
 
 #
@@ -133,5 +145,5 @@ fi
 echo -e "\n${GN}starting server.${NC} To view server type ${LB}screen -r minecraft${NC} and to minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
 # allocate 2.5GB of memory maximum
-screen -dmS minecraft java -Xmx2560M -Xms1024M -jar server.jar nogui
+screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui
 
