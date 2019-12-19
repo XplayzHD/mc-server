@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/local/bin/minecraft/./start.sh
-ExecStop=/usr/local/bin/minecraft/./stop.sh
-TimeoutSec = 600
+ExecStart=/usr/local/bin/minecraft/start.sh
+ExecStop=/usr/local/bin/minecraft/stop.sh
+TimeoutSec=600
 
 [Install]
 WantedBy=multi-user.target
