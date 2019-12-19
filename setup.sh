@@ -46,16 +46,18 @@ echo -e "${GN}done.${NC}"
 
 echo -e "${LB}creating startup service...${NC}"
 
+sudo mkdir -p $SERVICEDIR
+
 echo -e "\tdownloading the startup service from the repository..."
 # TODO update url
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/minecraft.service -o $SERVICEDIR/minecraft.service
 sudo chmod 644 $SERVICEDIR/minecraft.service
 
-reload daemon cache
+# reload daemon cache
 sudo systemctl daemon-reload
 
 echo -e "\tenabling the startup service..."
-sudo systemctl enable minecraftserver
+sudo systemctl enable minecraft
 
 echo -e "${GN}done.${NC}"
 
@@ -66,7 +68,8 @@ echo -e "${GN}done.${NC}"
 echo -e "${LB}setting up server directory...${NC}"
 
 echo -e "\tcreating directory..."
-mkdir -p $ROOTDIR
+sudo mkdir -p $ROOTDIR
+sudo mkdir -p $EXECDIR/minecraft
 
 echo -e "\tsaving server directory path..."
 echo $ROOTDIR | sudo tee $EXECDIR/minecraft/rootpath.txt 1>/dev/null
@@ -95,9 +98,11 @@ sudo rm $EXECDIR/minecraft/restart.sh 2>/dev/null
 echo -e "\tretrieving new scripts..."
 # TODO update urls
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/start.sh -o $EXECDIR/minecraft/start.sh
+sudo chmod 754 $EXECDIR/minecraft/start.sh
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/stop.sh -o $EXECDIR/minecraft/stop.sh
+sudo chmod 754 $EXECDIR/minecraft/stop.sh
 sudo curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/restart.sh -o $EXECDIR/minecraft/restart.sh
-sudo chmod 754 $EXECDIR/minecraft/*.sh
+sudo chmod 754 $EXECDIR/minecraft/restart.sh
 
 echo -e "${GN}done.${NC}"
 
