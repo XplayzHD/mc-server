@@ -27,18 +27,27 @@ sudo touch $ROOTDIR/server.name
 serverProperties="$(sed "s/level-name=.*/level-name=saves\/$(cat $ROOTDIR\/server\.name)/g" $ROOTDIR/server.properties)"
 echo "$serverProperties" | sudo tee $ROOTDIR/server.properties 1>/dev/null
 
+serverName=$(cat $ROOTDIR/server.name)
+serverProps=$ROOTDIR/server.properties
+
+if grep -q "level-name" $bootConf; then
+  sed "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps | sudo tee $serverProps >/dev/null 2>&1
+else
+  echo "level-name=saves/$serverName" | sudo tee -a $serverProps >/dev/null 2>&1
+fi
+
 #
 # backing up server
 #
 
 echo -e "${LB}backing up server...${NC}"
 # sanity check
-mkdir -p $ROOTDIR/backup
+mkdir -p $ROOTDIR/backups
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # copy worlds into timestampped folder
-mkdir $ROOTDIR/backup/$timestamp
-cp -r $ROOTDIR/saves/* $ROOTDIR/backup/$timestamp/ 2>/dev/null
+mkdir $ROOTDIR/backups/$timestamp
+cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ >/dev/null 2>&1
 
 # delete old worlds
 numDirectories=$(ls -l | grep -c ^d)

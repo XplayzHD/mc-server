@@ -35,7 +35,7 @@ grep -q "$blacklistAlsa" $alsaConf 2>/dev/null || echo "$blacklistAlsa" | sudo t
 # https://hothardware.com/reviews/hot-clocked-pi-raspberry-pi-4-benchmarked-at-214-ghz
 echo -e "\tsetting up cpu overclock..."
 yes | sudo apt-get update
-printf '%s\n' y q | sudo apt-get dist-upgrade
+yes | sudo apt-get dist-upgrade
 # experimental releases for (possibly) better cpu clocking capacities
 yes | sudo rpi-update
 
