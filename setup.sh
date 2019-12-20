@@ -125,11 +125,11 @@ sudo rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 echo -e "${LB}\tretrieving new scripts...${NC}"
 # TODO update urls
 sudo curl -s "https://raw.githubusercontent.com/bossley9/mc-server/rework/start.sh" -o "$EXECDIR/minecraft/start.sh"
-sudo chmod 754 "$EXECDIR/minecraft/start.sh"
+sudo chmod 755 "$EXECDIR/minecraft/start.sh"
 sudo curl -s "https://raw.githubusercontent.com/bossley9/mc-server/rework/stop.sh" -o "$EXECDIR/minecraft/stop.sh"
-sudo chmod 754 "$EXECDIR/minecraft/stop.sh"
+sudo chmod 755 "$EXECDIR/minecraft/stop.sh"
 sudo curl -s "https://raw.githubusercontent.com/bossley9/mc-server/rework/restart.sh" -o "$EXECDIR/minecraft/restart.sh"
-sudo chmod 754 "$EXECDIR/minecraft/restart.sh"
+sudo chmod 755 "$EXECDIR/minecraft/restart.sh"
 
 echo -e "${GN}done.${NC}"
 

@@ -28,7 +28,9 @@ fi
 
 echo -e "${LB}stopping the server...${NC}"
 
-screen -Rd minecraft -X stuff "say closing server manually.$(printf '\r')"
+screen -Rd minecraft -X stuff "say closing server manually$(printf '\r')"
+screen -Rd minecraft -X stuff "save-all$(printf '\r')"
+sleep 10s
 screen -Rd minecraft -X stuff "stop$(printf '\r')"
 
 #

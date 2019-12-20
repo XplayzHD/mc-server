@@ -40,20 +40,20 @@ fi
 # backing up server
 #
 
-echo -e "${LB}backing up server...${NC}"
+# echo -e "${LB}backing up server...${NC}"
 # sanity check
-mkdir -p $ROOTDIR/backups
-timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+# mkdir -p $ROOTDIR/backups
+# timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # copy worlds into timestampped folder
-mkdir $ROOTDIR/backups/$timestamp
-cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ >/dev/null 2>&1
+# mkdir $ROOTDIR/backups/$timestamp
+# cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ >/dev/null 2>&1
 
 # delete old worlds
-numDirectories=$(ls -l | grep -c ^d)
-if [[ $numDirectories > $numBackups ]]; then
-  rm -r $(ls | head -n $((numDirectories-numBackups)) )
-fi
+# numDirectories=$(ls -l | grep -c ^d)
+# if [[ $numDirectories > $numBackups ]]; then
+  # rm -r $(ls | head -n $((numDirectories-numBackups)) )
+# fi
 
 #
 # server prechecking
