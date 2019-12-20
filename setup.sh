@@ -88,7 +88,7 @@ echo -e "${LB}setting up server directory...${NC}"
 
 echo -e "\tcreating directory..."
 sudo mkdir -p $ROOTDIR
-sudo mkdir -p $EXECDIR
+sudo mkdir -p $EXECDIR/minecraft
 
 echo -e "\tsaving server directory path..."
 echo $ROOTDIR | sudo tee $EXECDIR/minecraft/rootpath.txt >/dev/null 2>&1
@@ -114,8 +114,6 @@ test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerWorld
 #
 
 echo -e "${LB}updating server scripts...${NC}"
-
-sudo mkdir -p $EXECDIR/minecraft
 
 echo -e "\tremoving old scripts..."
 sudo rm "$EXECDIR/minecraft/start.sh" >/dev/null 2>&1
