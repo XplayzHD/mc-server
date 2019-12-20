@@ -48,10 +48,10 @@ else
   echo "arm_freq=$overclockfreq" | sudo tee -a $bootConf 1>/dev/null
 fi
 
-if grep -q "over_voltage" $CONFIGDIR; then
-  sed "s/.*over_voltage.*/over_voltage=$overclockvoltage/g" $CONFIGDIR | sudo tee $CONFIGDIR 1>/dev/null
+if grep -q "over_voltage" $bootConf; then
+  sed "s/.*over_voltage.*/over_voltage=$overclockvoltage/g" $bootConf | sudo tee $bootConf 1>/dev/null
 else
-  echo "over_voltage=$overclockvoltage" | sudo tee -a $CONFIGDIR 1>/dev/null
+  echo "over_voltage=$overclockvoltage" | sudo tee -a $bootConf 1>/dev/null
 fi
 
 echo -e "${GN}done.${NC}"
@@ -103,9 +103,9 @@ fi
 
 echo -e "${GN}done.${NC}"
 
-echo -e "${YW}enter a name for your world. Default is ${LB}ServerName${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
+echo -e "${YW}enter a name for your world. Default is ${LB}ServerWorld${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
 read worldName
-test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerName"
+test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerWorld"
 ! test -z "$worldName" && echo "$worldName" | sudo tee $ROOTDIR/server.name 1>/dev/null
 
 #
