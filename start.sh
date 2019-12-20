@@ -19,6 +19,9 @@ numBackups=10
 # precheck
 #
 
+# set scaling governor
+echo "performance" | sudo tee "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >/dev/null 2>&1 
+
 # set saves folder
 sudo mkdir -p $ROOTDIR/saves
 sudo touch $ROOTDIR/server.properties
@@ -153,4 +156,4 @@ fi
 echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
 # allocate 2.5GB of memory maximum
-screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui
+sudo nice -n 5 screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui
