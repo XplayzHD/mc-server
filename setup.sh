@@ -11,7 +11,7 @@ GN='\033[1;32m'
 YW='\033[1;33m'
 NC='\033[0m'
 
-ROOTDIR=$HOME/.mc-server
+ROOTDIR=$HOME/minecraft
 SERVICEDIR=/etc/systemd/system
 EXECDIR="/usr/local/bin"
 
@@ -153,6 +153,10 @@ if ! [ -n "`which screen`" ]; then
   echo -e "${RD}screen could not be installed correctly. Aborting.${NC}"
   exit 1
 fi
+
+echo -e "${LB}\tinstalling ssh...${NC}"
+yes | sudo apt-get install openssh-server ii
+sudo systemctl enable ssh
 
 echo -e "${GN}done.${NC}"
 

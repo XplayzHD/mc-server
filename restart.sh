@@ -18,7 +18,7 @@ ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 #
 
 # verify server is running
-if ! screen -list | grep -q "minecraft"; then
+if ! sudo screen -list | grep -q "minecraft"; then
   echo -e "${RD}server is not currently running (invalid restart)${NC}"
 else
   screen -Rd minecraft -X stuff "say server will restart in 1 minute.$(printf '\r')"
@@ -33,8 +33,6 @@ else
   sleep 5s
 
   screen -Rd minecraft -X stuff "say closing server$(printf '\r')"
-  screen -Rd minecraft -X stuff "save-all$(printf '\r')"
-  sleep 10s
   screen -Rd minecraft -X stuff "stop$(printf '\r')"
 fi
 

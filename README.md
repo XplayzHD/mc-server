@@ -51,7 +51,7 @@ Plugging in the Pi will automatically start the server. The Pi should be connect
 - Navigating to the public Firebase endpoint created above will display the current server ip and status information of the server.
 - When shutting down the server, it is recommended to save the world with the command `/save-all` in the Minecraft console before unplugging the Pi. There is no guarantee the server will have saved the latest updates otherwise.
 
-The server is stored in the `.mc-server` directory. Various settings and properties can be changed in this folder, and on reboot, these changes will take effect. Some files to be aware of:
+The server is stored in the `~/minecraft/` directory. Various settings and properties can be changed in this folder, and on reboot, these changes will take effect. Some files to be aware of:
 - `server.properties` - the main settings for the server. To change the server name, use `server.name`
 - `server.name` - the name for the server
 - `server.endpoint` - the REST url endpoint used by Firebase
