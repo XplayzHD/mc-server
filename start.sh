@@ -30,7 +30,7 @@ echo "$serverProperties" | sudo tee $ROOTDIR/server.properties 1>/dev/null
 serverName=$(cat $ROOTDIR/server.name)
 serverProps=$ROOTDIR/server.properties
 
-if grep -q "level-name" $bootConf; then
+if grep -q "level-name" $serverProps; then
   sed "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps | sudo tee $serverProps >/dev/null 2>&1
 else
   echo "level-name=saves/$serverName" | sudo tee -a $serverProps >/dev/null 2>&1
@@ -52,7 +52,7 @@ cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ >/dev/null 2>&1
 # delete old worlds
 numDirectories=$(ls -l | grep -c ^d)
 if [[ $numDirectories > $numBackups ]]; then
-	rm -r $(ls | head -n $((numDirectories-numBackups)) )
+  rm -r $(ls | head -n $((numDirectories-numBackups)) )
 fi
 
 #
