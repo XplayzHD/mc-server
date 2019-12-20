@@ -1,0 +1,12 @@
+[Unit]
+Description=Minecraft server for the Raspberry Pi 4 Model B 4GB RAM
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/bin/bash /usr/local/bin/minecraft/start.sh
+ExecStop=/bin/bash /usr/local/bin/minecraft/stop.sh
+TimeoutSec=600
+
+[Install]
+WantedBy=multi-user.target
