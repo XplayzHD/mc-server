@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/bin/bash /usr/local/bin/minecraftstart.sh
-ExecStop=/bin/bash /usr/local/bin/minecraftstop.sh
+ExecStart=/bin/bash /usr/local/bin/minecraft/start.sh
+ExecStop=/bin/bash /usr/local/bin/minecraft/stop.sh
 TimeoutSec=600
 
 [Install]

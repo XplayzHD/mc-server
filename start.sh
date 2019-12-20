@@ -11,7 +11,7 @@ YW='\033[1;33m'
 NC='\033[0m'
 
 EXECDIR="/usr/local/bin"
-ROOTDIR="$(cat $EXECDIR/minecraftrootpath.txt)"
+ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE="$ROOTDIR/server.version"
 numBackups=10
 

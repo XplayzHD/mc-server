@@ -19,13 +19,13 @@ Throughout the process, I realized there is no set way of determining the ip add
 ## Usage <a name="usage"></a>
 
 1. [optional] Setup a Firebase project to run this server. More detailed instructions can be found in [doc/firebase.md](doc/firebase.md).
-2. On the Raspberry Pi, run `install.sh` from this repository to download the startup service files and server startup. Enter the endpoint url in the command. This will connect your server to the database.
+2. On the Raspberry Pi, run `setup.sh` from this repository to download the startup service files and server startup. Enter the endpoint url in the command. This will connect your server to the database.
     ```bash
     curl -s https://raw.githubusercontent.com/bossley9/mc-server/rework/setup.sh -o setup.sh
     chmod 755 setup.sh
     ./setup.sh
     ```
-    The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine `install.sh` for more information.
+    The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine `setup.sh` for more information.
     The endpoint is saved under `YourHomeDirectory/.mc-server/server.endpoint`. Usually this is `/home/pi/.mc-server/server.endpoint`. You may update the endpoint in the future, and a restart of the server will be required for the new endpoint to take effect.
       
       > By default, the server executable allocates 2.5GB of RAM for the server.

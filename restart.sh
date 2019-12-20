@@ -11,7 +11,7 @@ GN='\033[1;32m'
 NC='\033[0m'
 
 EXECDIR="/usr/local/bin"
-ROOTDIR="$(cat $EXECDIR/minecraftrootpath.txt)"
+ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 
 #
 # precheck
