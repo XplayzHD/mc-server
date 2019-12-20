@@ -143,7 +143,7 @@ if ! [ -z "$endpoint" ]; then
   ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
   ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
 
-  curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$currentVersion" $endpoint
+  curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$latestVersion" $endpoint
 fi
 
 #
