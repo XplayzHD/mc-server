@@ -163,7 +163,7 @@ echo -e "${YW}automatically reboot and update server at 4AM daily? This can alwa
 read bAutoReboot
 case $bAutoReboot in
   [Yy]*)
-    croncmd=$EXECDIR/minecraftrestart.sh
+    croncmd="$EXECDIR/minecraft/restart.sh"
     cronjob="0 4 * * * $croncmd"
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - >/dev/null 2>&1
     ;;
