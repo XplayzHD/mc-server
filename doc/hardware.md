@@ -42,6 +42,3 @@ The steps below are the steps I followed to setup up the Raspberry Pi.
 
     <img src="img/sinkandpi.jpg" alt="heat sink and pi" width="500px" />
     <img src="img/pinlayout.jpg" alt="pin layout diagram" width="500px" />
-
-See [software](software.md).
-See [usage](../README.md).
