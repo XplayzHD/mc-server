@@ -40,13 +40,13 @@ fi
 # backing up server
 #
 
-# echo -e "${LB}backing up server...${NC}"
+echo -e "${LB}backing up server...${NC}"
 # sanity check
-# mkdir -p $ROOTDIR/backups
+mkdir -p $ROOTDIR/backups
 # timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # copy worlds into timestampped folder
-# mkdir $ROOTDIR/backups/$timestamp
+mkdir -p  $ROOTDIR/backups/$timestamp
 # cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ >/dev/null 2>&1
 
 # delete old worlds
@@ -81,7 +81,7 @@ echo -e "\tgetting the latest vanilla version..."
 
 latestVersion="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
-latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+")
+latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+(\.[0-9]+)?")
 
 echo -e "\tlatest minecraft version is ${LB}$latestVersion${NC}"
 
