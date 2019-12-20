@@ -34,9 +34,9 @@ grep -q "$blacklistAlsa" $alsaConf 2>/dev/null || echo "$blacklistAlsa" | sudo t
 # https://www.cnx-software.com/2019/07/26/how-to-overclock-raspberry-pi-4/
 # https://hothardware.com/reviews/hot-clocked-pi-raspberry-pi-4-benchmarked-at-214-ghz
 echo -e "\tsetting up cpu overclock..."
-sudo apt-get update && sudo apt-get dist-upgrade
+yes | sudo apt-get update && sudo apt-get dist-upgrade
 # experimental releases for (possibly) better cpu clocking capacities
-sudo rpi-update
+printf '%s\n' y q | sudo rpi-update
 
 bootConf=/boot/config.txt
 overclockfreq=2147
@@ -135,17 +135,17 @@ echo -e "${GN}done.${NC}"
 #
 
 echo -e "${LB}installing dependencies...${NC}"
-sudo apt-get update
+yes | sudo apt-get update
 
 echo -e "\tinstalling java 8 jdk..."
-sudo apt-get install openjdk-8-jre-headless
+yes | sudo apt-get install openjdk-8-jre-headless
 if ! [ -n "`which java`" ]; then
   echo -e "${RD}java could not be installed correctly. Aborting.${NC}"
   exit 1
 fi
 
 echo -e "\tinstalling screen..."
-sudo apt-get install screen 
+yes | sudo apt-get install screen 
 if ! [ -n "`which screen`" ]; then
   echo -e "${RD}screen could not be installed correctly. Aborting.${NC}"
   exit 1
@@ -164,7 +164,7 @@ case $bAutoReboot in
   [Yy]*)
     croncmd=$EXECDIR/minecraftrestart.sh
     cronjob="0 4 * * * $croncmd"
-    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - &>/dev/null
     ;;
 esac
 

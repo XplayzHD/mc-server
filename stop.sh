@@ -1,4 +1,3 @@
-#!/bin/bash
 # script to stop the server
 
 #
@@ -10,7 +9,7 @@ RD='\033[1;31m'
 GN='\033[1;32m'
 NC='\033[0m'
 
-EXECDIR=/usr/local/bin
+EXECDIR="/usr/local/bin"
 ROOTDIR="$(cat $EXECDIR/minecraftrootpath.txt)"
 
 #

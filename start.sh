@@ -1,4 +1,3 @@
-#!/bin/bash
 # script to start the server
 
 #
