@@ -13,7 +13,7 @@ NC='\033[0m'
 
 ROOTDIR=$HOME/.mc-server
 SERVICEDIR=/etc/systemd/system
-EXECDIR=/usr/local/bin
+EXECDIR="/usr/local/bin"
 
 #
 # optimizing the environment
@@ -34,9 +34,10 @@ grep -q "$blacklistAlsa" $alsaConf 2>/dev/null || echo "$blacklistAlsa" | sudo t
 # https://www.cnx-software.com/2019/07/26/how-to-overclock-raspberry-pi-4/
 # https://hothardware.com/reviews/hot-clocked-pi-raspberry-pi-4-benchmarked-at-214-ghz
 echo -e "\tsetting up cpu overclock..."
-yes | sudo apt-get update && sudo apt-get dist-upgrade
+yes | sudo apt-get update
+printf '%s\n' y q | sudo apt-get dist-upgrade
 # experimental releases for (possibly) better cpu clocking capacities
-printf '%s\n' y q | sudo rpi-update
+yes | sudo rpi-update
 
 bootConf=/boot/config.txt
 overclockfreq=2147
@@ -90,13 +91,13 @@ sudo mkdir -p $ROOTDIR
 sudo mkdir -p $EXECDIR
 
 echo -e "\tsaving server directory path..."
-echo $ROOTDIR | sudo tee $EXECDIR/minecraft/rootpath.txt 1>/dev/null
+echo $ROOTDIR | sudo tee $EXECDIR/minecraft/rootpath.txt >/dev/null 2>&1
 
 echo -e "\tstoring endpoint url..."
 echo -e "${YW}enter an endpoint url or press ENTER to continue with any previously entered url. This can always be updated later in $ROOTDIR/server.endpoint:${NC}"
 read endpoint
 if [[ ! -z $endpoint ]]; then
-  echo $endpoint | sudo tee $ROOTDIR/server.endpoint 1>/dev/null
+  echo $endpoint | sudo tee $ROOTDIR/server.endpoint >/dev/null 2>&1
 else
   sudo touch $ROOTDIR/server.endpoint
 fi
@@ -106,7 +107,7 @@ echo -e "${GN}done.${NC}"
 echo -e "${YW}enter a name for your world. Default is ${LB}ServerWorld${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
 read worldName
 test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerWorld"
-! test -z "$worldName" && echo "$worldName" | sudo tee $ROOTDIR/server.name 1>/dev/null
+! test -z "$worldName" && echo "$worldName" | sudo tee $ROOTDIR/server.name >/dev/null 2>&1
 
 #
 # updating server scripts 
@@ -114,12 +115,12 @@ test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerWorld
 
 echo -e "${LB}updating server scripts...${NC}"
 
-mkdir -p $EXECDIR/minecraft
+sudo mkdir -p $EXECDIR/minecraft
 
 echo -e "\tremoving old scripts..."
-sudo rm "$EXECDIR/minecraft/start.sh" 2>/dev/null
-sudo rm "$EXECDIR/minecraft/stop.sh" 2>/dev/null
-sudo rm "$EXECDIR/minecraft/restart.sh" 2>/dev/null
+sudo rm "$EXECDIR/minecraft/start.sh" >/dev/null 2>&1
+sudo rm "$EXECDIR/minecraft/stop.sh" >/dev/null 2>&1
+sudo rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 
 echo -e "\tretrieving new scripts..."
 # TODO update urls
@@ -166,7 +167,7 @@ case $bAutoReboot in
   [Yy]*)
     croncmd=$EXECDIR/minecraftrestart.sh
     cronjob="0 4 * * * $croncmd"
-    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - &>/dev/null
+    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - >/dev/null 2>&1
     ;;
 esac
 
