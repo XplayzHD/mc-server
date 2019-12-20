@@ -43,17 +43,17 @@ fi
 echo -e "${LB}backing up server...${NC}"
 # sanity check
 mkdir -p $ROOTDIR/backups
-# timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # copy worlds into timestampped folder
 mkdir -p  $ROOTDIR/backups/$timestamp
-# cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ >/dev/null 2>&1
+cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/
 
 # delete old worlds
-# numDirectories=$(ls -l | grep -c ^d)
-# if [[ $numDirectories > $numBackups ]]; then
-  # rm -r $(ls | head -n $((numDirectories-numBackups)) )
-# fi
+numDirectories=$(ls -l | grep -c ^d)
+if [[ $numDirectories > $numBackups ]]; then
+  ls -tp | grep -v '/$' | tail -n +$numBackups | xargs -I {} rm -- {}
+fi
 
 #
 # server prechecking
@@ -154,4 +154,3 @@ echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen
 
 # allocate 2.5GB of memory maximum
 screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui
-
