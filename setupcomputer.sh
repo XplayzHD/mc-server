@@ -11,8 +11,8 @@ GN='\033[1;32m'
 YW='\033[1;33m'
 NC='\033[0m'
 
-ROOTDIR=$HOME/minecraft
-SERVICEDIR=/etc/systemd/system
+ROOTDIR="$HOME/minecraft"
+SERVICEDIR="/etc/systemd/system"
 EXECDIR="/usr/local/bin"
 
 #
@@ -20,7 +20,6 @@ EXECDIR="/usr/local/bin"
 #
 
 echo -e "${GN}optimizing the environment...${NC}"
-bootConf=/boot/config.txt
 
 echo -e "${LB}\tdisabling bluetooth services...${NC}"
 sudo systemctl stop bluetooth
@@ -28,43 +27,12 @@ sudo systemctl disable hciuart
 sudo systemctl disable bluetooth
 
 echo -e "${LB}\tdisabling sound...${NC}"
-if grep -q "dtparam=audio" $bootConf; then
-  sed "s/.*dtparam=audio.*/dtparam=audio=off/g" $bootConf | sudo tee $bootConf 1>/dev/null
-else
-  echo "dtparam=audio=off" | sudo tee -a $bootConf 1>/dev/null
-fi
 blacklistAlsa="blacklist snd_bcm2835"
 alsaConf=/etc/modprobe.d/alsa-blacklist.conf
 grep -q "$blacklistAlsa" $alsaConf 2>/dev/null || echo "$blacklistAlsa" | sudo tee -a $alsaConf 1>/dev/null
 
-echo -e "${LB}\tsetting up cpu overclock...${NC}"
 yes | sudo apt-get update
 yes | sudo apt-get dist-upgrade
-# experimental releases for (possibly) better cpu clocking capacities
-yes | sudo rpi-update
-
-overclockfreq=2147
-overclockvoltage=6
-
-if grep -q "arm_freq" $bootConf; then
-  sed "s/.*arm_freq.*/arm_freq=$overclockfreq/g" $bootConf | sudo tee $bootConf 1>/dev/null
-else
-  echo "arm_freq=$overclockfreq" | sudo tee -a $bootConf 1>/dev/null
-fi
-
-if grep -q "over_voltage" $bootConf; then
-  sed "s/.*over_voltage.*/over_voltage=$overclockvoltage/g" $bootConf | sudo tee $bootConf 1>/dev/null
-else
-  echo "over_voltage=$overclockvoltage" | sudo tee -a $bootConf 1>/dev/null
-fi
-
-echo -e "${LB}\tsetting up microSD overclock...${NC}"
-overclocksd="dtoverlay=sdhost,overclock_50"
-if grep -q $overclocksd $bootConf; then
-  sed "s/.*$overclocksd.*/$overclockvoltage=100/g" $bootConf | sudo tee $bootConf 1>/dev/null
-else
-  echo "$overclocksd=100" | sudo tee -a $bootConf 1>/dev/null
-fi
 
 echo -e "${GN}done.${NC}"
 

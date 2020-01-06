@@ -1,5 +1,5 @@
 # mc-server
-A portable [Minecraft](https://www.minecraft.net/) server solution for the Raspberry Pi
+A portable [Minecraft](https://www.minecraft.net/) server solution
 
 ## Table of Contents
 1. [Goal](#goal)
@@ -12,9 +12,11 @@ A portable [Minecraft](https://www.minecraft.net/) server solution for the Raspb
 ## Goal <a name="goal"></a>
 The purpose of this project is to create a self-sufficient, portable Minecraft server on an independently controlled piece of hardware. Self-run Minecraft servers are usually hard to manage because the host's computer is unable to stay online 24/7, or, when run with other programs, slow down the server. Manually backing up the server is also a prominent issue, and a lot of data is lost due to crashes, malfunctions, or poor online ediquette from users.
 
-With this problem in mind, I create a standalone portable Minecraft server on a Raspberry Pi that runs freely of any other programs, allowing the server full control of the memory and cpu. This solution only needs power and ethernet, and backups for the previous 10 days are automatically stored.
+With this problem in mind, I create a standalone portable Minecraft server on a machine that runs freely of any other programs, allowing the server full control of the memory and cpu. This solution only needs power and ethernet, and backups for the previous 10 days are automatically stored.
 
-Throughout the process, I realized there is no set way of determining the ip address or status of the server without logging in to and displaying the Pi. I decided to use [Firebase functions](https://firebase.google.com/docs/functions) to store the server status information in a simple database and REST endpoing. A user can determine the current ip address or status of the server by visiting this Firebase endpoint. I needed to create a Firebase project for this server setup (more information in the [software section](doc/software.md)).
+Throughout the process, I realized there is no set way of determining the ip address or status of the server without logging in and displaying from the server. I decided to use [Firebase functions](https://firebase.google.com/docs/functions) to store the server status information in a simple database and REST endpoing. A user can determine the current ip address or status of the server by visiting this Firebase endpoint. I needed to create a Firebase project for this server setup (more information in the [software section](doc/software.md)).
+
+I initially created this guide for a Rapsberry Pi 4, but I have adjusted the guide [for other machines (desktop, laptop) as well](doc/computer.md).
 
 > This setup is only guaranteed to work with the hardware specified in the [hardware section](doc/hardware.md). I cannot verify these settings will work with a different Raspberry Pi model, without a heatsink, or without the specific AC power supply.
 
@@ -24,17 +26,19 @@ Throughout the process, I realized there is no set way of determining the ip add
 
 ## [Setting up the Firebase endpoint (optional) <a name="endpoint"></a>](doc/firebase.md)
 
+## Setting up the server <a name="setup"></a>
+
 1. On the Raspberry Pi, run `setup.sh` from this repository to download the startup service files and server startup. This setup process will download all necessary packages needed to optimize and run the server, as well as set up all directories and scripts. You will be prompted a few settings:
     - Enter the Firebase endpoint url (optional)
     - Enter a name for your world
     - Approve the daily server restart at 4AM local time
     At the end of the process, it will need to reboot to start the server.
     ```bash
-    curl https://raw.githubusercontent.com/bossley9/mc-server/rework/setup.sh -o setup.sh
+    curl https://raw.githubusercontent.com/bossley9/mc-server/master/setup.sh -o setup.sh
     chmod +x setup.sh
     ./setup.sh
     ```
-    The reason for this script is that without it, a headless Ubuntu server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine `setup.sh` for more information.
+    The reason for this script is that without it, a headless server running on a Raspberry Pi makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine `setup.sh` for more information.
     Your server will then be fully functional and running on reboot!
 2. Before you unplug the display or disconnect the server, it is **highly recommended** that you read the [notes](#notes) and OP at least one player.
 

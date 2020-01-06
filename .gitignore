@@ -1,5 +1,6 @@
 # configuration files
 .vim/
+.nvim/
 
 # Logs
 logs
