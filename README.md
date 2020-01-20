@@ -16,7 +16,7 @@ With this problem in mind, I create a standalone portable Minecraft server on a 
 
 Throughout the process, I realized there is no set way of determining the ip address or status of the server without logging in and displaying from the server. I decided to use [Firebase functions](https://firebase.google.com/docs/functions) to store the server status information in a simple database and REST endpoing. A user can determine the current ip address or status of the server by visiting this Firebase endpoint. I needed to create a Firebase project for this server setup (more information in the [software section](doc/software.md)).
 
-I initially created this guide for a Rapsberry Pi 4, but I have adjusted the guide [for other machines (desktop, laptop) as well](doc/computer.md).
+I initially created this guide for a Rapsberry Pi 4, but I have adjusted the guide [for other machines (desktop, laptop) as well](desktop/computer.md).
 
 > This setup is only guaranteed to work with the hardware specified in the [hardware section](doc/hardware.md). I cannot verify these settings will work with a different Raspberry Pi model, without a heatsink, or without the specific AC power supply.
 
