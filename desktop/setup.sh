@@ -117,6 +117,8 @@ systemctl enable sshd
 
 sed -i "s/.*#.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
+echo "export TERM=xterm" | tee -a ~/.bashrc
+
 echo -e "${GN}done.${NC}"
 
 #
