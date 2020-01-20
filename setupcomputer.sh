@@ -34,6 +34,10 @@ grep -q "$blacklistAlsa" $alsaConf 2>/dev/null || echo "$blacklistAlsa" | sudo t
 yes | sudo apt-get update
 yes | sudo apt-get dist-upgrade
 
+# prevent snap updates
+sudo systemctl stop snapd.service
+sudo systemctl disable snapd.service
+
 echo -e "${GN}done.${NC}"
 
 #
@@ -155,6 +159,22 @@ case $bAutoReboot in
 esac
 
 echo -e "${GN}done.${NC}"
+
+#
+# setup ssh
+#
+
+echo export TERM=xterm-256color >> ~/.bashrc
+
+grubConf="/etc/default/grub"
+
+if grep -q "GRUB_TIMEOUT=" $grubConf; then
+  sed "s/.*GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/g" $grubConf | sudo tee $grubConf 1>/dev/null
+else
+  echo "GRUB_TIMEOUT=0" | sudo tee -a $bootConf 1>/dev/null
+fi
+
+sudo update-grub
 
 #
 # system reboot

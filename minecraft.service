@@ -1,5 +1,5 @@
 [Unit]
-Description=Minecraft server for the Raspberry Pi 4 Model B 4GB RAM
+Description=Minecraft server
 After=network.target
 
 [Service]
