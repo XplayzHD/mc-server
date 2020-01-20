@@ -27,8 +27,6 @@ mkdir -p $ROOTDIR/saves
 touch $ROOTDIR/server.properties
 # sanity check
 touch $ROOTDIR/server.name
-serverProperties="$(sed "s/level-name=.*/level-name=saves\/$(cat $ROOTDIR\/server\.name)/g" $ROOTDIR/server.properties)"
-echo "$serverProperties" | tee $ROOTDIR/server.properties 1>/dev/null
 
 serverName=$(cat $ROOTDIR/server.name)
 serverProps=$ROOTDIR/server.properties
@@ -129,7 +127,7 @@ if [[ $? == 1 ]]; then # greater than means 1
 
   echo -e "\tinstalling latest version..."
 
-  link="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+  link="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
 
   curl $link -o $ROOTDIR/server.jar
