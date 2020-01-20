@@ -115,6 +115,8 @@ echo -e "${LB}\tinstalling ssh...${NC}"
 yes | pacman -S openssh
 systemctl enable sshd
 
+sed -i "s/.*#.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+
 echo -e "${GN}done.${NC}"
 
 #
