@@ -32,7 +32,7 @@ serverName=$(cat $ROOTDIR/server.name)
 serverProps=$ROOTDIR/server.properties
 
 if grep -q "level-name" $serverProps; then
-  sed "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps | tee $serverProps >/dev/null 2>&1
+  sed -i "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps
 else
   echo "level-name=saves/$serverName" | tee -a $serverProps >/dev/null 2>&1
 fi
@@ -80,7 +80,7 @@ echo "eula=true" > $ROOTDIR/eula.txt
 
 echo -e "\tgetting the latest vanilla version..."
 
-latestVersion="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+latestVersion="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
 latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+(\.[0-9]+)?")
 
@@ -141,7 +141,7 @@ endpoint="$(cat $ROOTDIR/server.endpoint)"
 if ! [ -z "$endpoint" ]; then
   echo -e "${LB}sending data to endpoint...${NC}"
   
-  ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
+  ip="$(curl ifconfig.me | tr -d '[:space:]'):25565"
   ipLocal="$(ip route list | grep default | awk '{print $9}'):25565"
 
   curl -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$latestVersion" $endpoint
