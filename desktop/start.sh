@@ -144,7 +144,7 @@ if ! [ -z "$endpoint" ]; then
   echo -e "${LB}sending data to endpoint...${NC}"
   
   ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
-  ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
+  ipLocal="$(ip route list | grep default | awk '{print $9}'):25565"
 
   curl -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$latestVersion" $endpoint
 fi
