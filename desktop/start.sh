@@ -28,13 +28,24 @@ touch $ROOTDIR/server.properties
 # sanity check
 touch $ROOTDIR/server.name
 
-serverName=$(cat $ROOTDIR/server.name)
 serverProps=$ROOTDIR/server.properties
+
+# level name
+
+serverName=$(cat $ROOTDIR/server.name)
 
 if grep -q "level-name" $serverProps; then
   sed -i "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps
 else
   echo "level-name=saves/$serverName" | tee -a $serverProps >/dev/null 2>&1
+fi
+
+# difficulty normal
+
+if grep -q "difficulty" $serverProps; then
+  sed -i "s/difficulty=.*/difficulty=normal/g" $serverProps
+else
+  echo "difficulty=normal" | tee -a $serverProps >/dev/null 2>&1
 fi
 
 #
@@ -153,5 +164,4 @@ fi
 
 echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
-# nice -n 5 screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui
-nice -n 5 screen -dmS minecraft java -server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:ParallelGCThreads=7 -XX:+AggressiveOpts -Xmx3G -Xms1G -jar $ROOTDIR/server.jar nogui
+nice -n 5 screen -dmS minecraft java -server -Xmx3G -Xms1G -jar $ROOTDIR/server.jar nogui
