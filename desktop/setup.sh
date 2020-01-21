@@ -143,6 +143,30 @@ esac
 echo -e "${GN}done.${NC}"
 
 #
+# power settings
+#
+
+logind="/etc/systemd/logind.conf"
+
+if grep -q "HandleLidSwitch=" $logind; then
+  sed -i "s/HandleLidSwitch=.*/HandleLidSwitch=ignore/g" $logind
+else
+  echo "HandleLidSwitch=ignore" | tee -a $logind >/dev/null 2>&1
+fi
+
+if grep -q "HandleLidSwitchExternalPower=" $logind; then
+  sed -i "s/HandleLidSwitchExternalPower=.*/HandleLidSwitchExternalPower=ignore/g" $logind
+else
+  echo "HandleLidSwitchExternalPower=ignore" | tee -a $logind >/dev/null 2>&1
+fi
+
+if grep -q "HandleLidSwitchDocked=" $logind; then
+  sed -i "s/HandleLidSwitchDocked=.*/HandleLidSwitchDocked=ignore/g" $logind
+else
+  echo "HandleLidSwitchDocked=ignore" | tee -a $logind >/dev/null 2>&1
+fi
+
+#
 # setup ssh
 #
 
