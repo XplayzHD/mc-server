@@ -1,5 +1,5 @@
 # mc-server
-A portable [Minecraft](https://www.minecraft.net/) server solution
+Scripts to optimize a dedicated [Minecraft](https://www.minecraft.net/) server solution. The scripts in this repository assume the machine the server will be hosted on can be solely dedicated to the server and nothing else. It will likely erase any of the machine's previous files and data.
 
 ## Table of Contents
 1. [Goal](#goal)

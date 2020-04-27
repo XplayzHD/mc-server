@@ -156,4 +156,4 @@ fi
 echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
 # allocate 2.5GB of memory maximum
-sudo nice -n 5 screen -dmS minecraft java -Xmx2560M -Xms1024M -jar $ROOTDIR/server.jar nogui
+sudo nice -n 5 screen -dmS minecraft java -Xmx7G -Xms1G -jar $ROOTDIR/server.jar nogui
