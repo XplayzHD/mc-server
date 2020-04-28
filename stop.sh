@@ -17,7 +17,7 @@ ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 #
 
 # verify server is running
-if ! sudo screen -list | grep -q "minecraft"; then
+if ! screen -list | grep -q "minecraft"; then
   echo -e "${RD}server is not currently running (invalid stop)${NC}"
   exit 1
 fi
@@ -42,7 +42,7 @@ if ! [ -z "$endpoint" ]; then
   ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
   ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
 
-  curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=offline&message=shutdown" $endpoint
+  curl -X POST -d "ip=$ip&ipLocal=$ipLocal&status=offline&message=shutdown" $endpoint
 fi
 
 # wait 30 seconds for server to close

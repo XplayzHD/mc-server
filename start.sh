@@ -20,23 +20,32 @@ numBackups=10
 #
 
 # set scaling governor
-echo "performance" | sudo tee "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >/dev/null 2>&1 
+echo "performance" | tee "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >/dev/null 2>&1 
 
 # set saves folder
-sudo mkdir -p $ROOTDIR/saves
-sudo touch $ROOTDIR/server.properties
+mkdir -p $ROOTDIR/saves
+touch $ROOTDIR/server.properties
 # sanity check
-sudo touch $ROOTDIR/server.name
-serverProperties="$(sed "s/level-name=.*/level-name=saves\/$(cat $ROOTDIR\/server\.name)/g" $ROOTDIR/server.properties)"
-echo "$serverProperties" | sudo tee $ROOTDIR/server.properties 1>/dev/null
+touch $ROOTDIR/server.name
 
-serverName=$(cat $ROOTDIR/server.name)
 serverProps=$ROOTDIR/server.properties
 
+# level name
+
+serverName=$(cat $ROOTDIR/server.name)
+
 if grep -q "level-name" $serverProps; then
-  sed "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps | sudo tee $serverProps >/dev/null 2>&1
+  sed -i "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps
 else
-  echo "level-name=saves/$serverName" | sudo tee -a $serverProps >/dev/null 2>&1
+  echo "level-name=saves/$serverName" | tee -a $serverProps >/dev/null 2>&1
+fi
+
+# difficulty normal
+
+if grep -q "difficulty" $serverProps; then
+  sed -i "s/difficulty=.*/difficulty=normal/g" $serverProps
+else
+  echo "difficulty=normal" | tee -a $serverProps >/dev/null 2>&1
 fi
 
 #
@@ -66,7 +75,7 @@ echo -e "${LB}server prechecking...${NC}"
 
 # https://raw.githubusercontent.com/TheRemote/RaspberryPiMinecraft/master/start.sh
 echo -e "\tflushing memory..."
-sudo sh -c "echo 1 > /proc/sys/vm/drop_caches"
+sh -c "echo 1 > /proc/sys/vm/drop_caches"
 sync
 
 echo -e "\tverifying install location..."
@@ -82,7 +91,7 @@ echo "eula=true" > $ROOTDIR/eula.txt
 
 echo -e "\tgetting the latest vanilla version..."
 
-latestVersion="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+latestVersion="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
 latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
 latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+(\.[0-9]+)?")
 
@@ -129,7 +138,7 @@ if [[ $? == 1 ]]; then # greater than means 1
 
   echo -e "\tinstalling latest version..."
 
-  link="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
+  link="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
   link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
 
   curl $link -o $ROOTDIR/server.jar
@@ -143,10 +152,10 @@ endpoint="$(cat $ROOTDIR/server.endpoint)"
 if ! [ -z "$endpoint" ]; then
   echo -e "${LB}sending data to endpoint...${NC}"
   
-  ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
-  ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
+  ip="$(curl ifconfig.me | tr -d '[:space:]'):25565"
+  ipLocal="$(ip route list | grep default | awk '{print $9}'):25565"
 
-  curl -s -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$latestVersion" $endpoint
+  curl -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$latestVersion" $endpoint
 fi
 
 #
@@ -155,5 +164,4 @@ fi
 
 echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
-# allocate 7GB of memory maximum
-sudo nice -n -20 screen -dmS minecraft java -Xmx7G -Xms1G -jar $ROOTDIR/server.jar nogui
+nice -n -20 screen -dmS minecraft java -server -Xmx7G -Xms1G -jar $ROOTDIR/server.jar nogui
