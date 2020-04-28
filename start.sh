@@ -145,20 +145,6 @@ if [[ $? == 1 ]]; then # greater than means 1
 fi
 
 #
-# sending data to endpoint
-#
-
-endpoint="$(cat $ROOTDIR/server.endpoint)"
-if ! [ -z "$endpoint" ]; then
-  echo -e "${LB}sending data to endpoint...${NC}"
-  
-  ip="$(curl ifconfig.me | tr -d '[:space:]'):25565"
-  ipLocal="$(ip route list | grep default | awk '{print $9}'):25565"
-
-  curl -X POST -d "ip=$ip&ipLocal=$ipLocal&status=online&message=starting&mcversion=$latestVersion" $endpoint
-fi
-
-#
 # starting server
 #
 

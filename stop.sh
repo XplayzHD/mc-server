@@ -31,20 +31,6 @@ echo -e "${LB}stopping the server...${NC}"
 screen -Rd minecraft -X stuff "say closing server manually$(printf '\r')"
 screen -Rd minecraft -X stuff "stop$(printf '\r')"
 
-#
-# sending data to endpoint
-#
-
-endpoint="$(cat $ROOTDIR/server.endpoint)"
-if ! [ -z "$endpoint" ]; then
-  echo -e "${LB}sending data to endpoint...${NC}"
-  
-  ip="$(curl -s ifconfig.me | tr -d '[:space:]'):25565"
-  ipLocal="$(hostname -I | tr -d '[:space:]'):25565"
-
-  curl -X POST -d "ip=$ip&ipLocal=$ipLocal&status=offline&message=shutdown" $endpoint
-fi
-
 # wait 30 seconds for server to close
 
 echo -e "${LB}closing server...${NC}"

@@ -58,17 +58,6 @@ mkdir -p $EXECDIR/minecraft
 echo -e "${LB}\tsaving server directory path...${NC}"
 echo $ROOTDIR | tee $EXECDIR/minecraft/rootpath.txt
 
-echo -e "${LB}\tstoring endpoint url...${NC}"
-echo -e "${YW}enter an endpoint url or press ENTER to continue with any previously entered url. This can always be updated later in $ROOTDIR/server.endpoint:${NC}"
-read endpoint
-if [[ ! -z $endpoint ]]; then
-  echo $endpoint | tee $ROOTDIR/server.endpoint
-else
-  touch $ROOTDIR/server.endpoint
-fi
-
-echo -e "${GN}done.${NC}"
-
 echo -e "${YW}enter a name for your world. Default is ${LB}ServerWorld${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
 read worldName
 test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerWorld"

@@ -1,15 +1,13 @@
 # Minecraft Server
-Scripts to optimize a portable dedicated [Minecraft](https://www.minecraft.net/) server solution. 
+A performance-optimized portable dedicated [Minecraft](https://www.minecraft.net/) server solution
 
 ## Table of Contents
 1. [Goal](#goal)
-3. [Installation](#installation)
-3. [Setting up the Firebase endpoint (optional)](#endpoint)
-4. [Setting up the server](#setup)
-5. [Notes](#notes)
+2. [Installation](#installation)
+3. [Notes](#notes)
 
 ## Goal <a name="goal"></a>
-The purpose of this project is to create a self-sufficient, portable Minecraft server on a portable device, such as a laptop or Raspberry Pi. A Minecraft server run on a frequently-used machine is usually hard to manage because the host is unable to stay online 24/7, or lags significantly when run parallel to other programs. Manual backups of the server is also a prominent issue, and a lot of data can be lost due to crashes, malfunctions, or poor online ediquette from non-blacklisted users.
+The purpose of this project is to create a self-sufficient, portable Minecraft server on a portable machine, such as a laptop. A Minecraft server run on a frequently-used machine is usually hard to manage because the host is unable to stay online 24/7, or lags significantly when run parallel to other programs. Manual backups of the server is also a prominent issue, and a lot of data can be lost due to crashes, malfunctions, or poor online ediquette from non-blacklisted users.
 
 Keeping these issues in mind, I decided to write scripts that completely manage all of the above issues for you, and optimize the server to its maximum potential, allowing the server full control of the memory and cpu. This solution only needs power and ethernet, and backups are automatically stored.
 
@@ -31,13 +29,13 @@ The installation involves wiping the machine completely and installing a minimal
     git clone https://github.com/bossley9/mc-server.git minecraft
     cd minecraft
     ```
+2. Run the setup script.
+    ```
+    chmod u+x ./installation/setup.sh
+    ./installation/setup.sh
+    ```
 
-## [Setting up the Firebase endpoint (optional) <a name="endpoint"></a>](firebase.md)
-
-## Setting up the server <a name="setup"></a>
-
-1. Run `setup.sh` from this repository to download the startup service files and server startup. This setup process will download all necessary packages needed to optimize and run the server, as well as set up all directories and scripts. You will be prompted a few settings:
-    - Enter the Firebase endpoint url (optional)
+    This setup process will download all necessary packages needed to optimize and run the server, as well as set up all directories and scripts. You will be prompted a few settings:
     - Enter a name for your world
     - Approve the daily server restart at 4AM local time
     At the end of the process, it will need to reboot to start the server.
