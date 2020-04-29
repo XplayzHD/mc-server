@@ -2,6 +2,10 @@
 
 echo local ip:
 echo "$(ip a | awk '/state UP/{getline; getline; print $2}' | cut -d '/' -f1)"
+echo "broadcasted ip:"
+echo "$(curl -S ifconfig.me)"
+echo "script directory:"
+echo $(dirname "$0")
 
 #
 # constants
