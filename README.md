@@ -9,7 +9,7 @@ A performance-optimized portable dedicated [Minecraft](https://www.minecraft.net
 ## Goal <a name="goal"></a>
 The purpose of this project is to create a self-sufficient, portable Minecraft server on a portable machine, such as a laptop. A Minecraft server run on a frequently-used machine is usually hard to manage because the host is unable to stay online 24/7, or lags significantly when run parallel to other programs. Manual backups of the server is also a prominent issue, and a lot of data can be lost due to crashes, malfunctions, or poor online ediquette from non-blacklisted users.
 
-Keeping these issues in mind, I decided to write scripts that completely manage all of the above issues for you, and optimize the server to its maximum potential, allowing the server full control of the memory and cpu. This solution only needs power and ethernet, and backups are automatically stored.
+Keeping these issues in mind, I decided to write scripts that completely manage all of the above issues and optimize the server to its maximum potential, allowing the server full control of the memory and cpu. This solution only needs power and ethernet, and backups are automatically stored.
 
 It is important to note that the scripts I created are for a specific usage, and these conditions may not apply to you:
   - You own a spare machine (laptop, desktop, Raspberry Pi, mobile device).

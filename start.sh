@@ -1,5 +1,8 @@
 # script to start the server
 
+echo local ip:
+echo "$(ip a | awk '/state UP/{getline; getline; print $2}' | cut -d '/' -f1)"
+
 #
 # constants
 #
