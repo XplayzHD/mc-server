@@ -48,9 +48,23 @@ To completely wipe and install a minimal Arch distributation into the machine, s
 
 Hardware can greatly impact the performance of a Minecraft server. As of the last time this readme was updated (2020.05.05), [Java Edition Minecraft servers handle ticks entirely with one thread](https://linustechtips.com/main/topic/824264-how-many-cores-does-a-minecraft-server-use-efficiently/). Because of this fact, the best way to optimize TPS (ticks per second) is to use a CPU with a high single-thread performance. You can find an in-depth ranking of CPU single threads [here](https://www.cpubenchmark.net/singleThread.html).
 
-Memory could also be an issue. I recommend 8GB of RAM since Java enjoys hoarding RAM. 4GB of RAM is likely doable, but pushing the server, especially if the server is not standalone and the machine is used for casual use.
+Memory could also be an issue. I recommend 8GB of RAM since Java enjoys hoarding RAM. 4GB of RAM is likely doable, but pushing the server, especially if the server is not standalone and the machine is used for casual use. I recommend using a performance utility such as `htop` or `glances` to monitor the server performance and resource usage from time to time.
 
 ## Notes <a name="notes"></a>
+
+Significant files within the server repository is 
+shown divided into the folder structure below:
+```
+bin/
+  restart.sh
+  start.sh
+  stop.sh
+installation/
+  setup.sh
+server/
+  server.properties
+```
+
 A user can access the server console from the computer by switching processes:
 ```bash
 sudo screen -r minecraft
@@ -66,7 +80,6 @@ Turning on the computer will automatically start the server. The computer should
 The server is stored in the `~/minecraft/` directory. Various settings and properties can be changed in this folder, and on reboot, these changes will take effect. Some files to be aware of:
 - `server.properties` - the main settings for the server. To change the server name, use `server.name`
 - `server.name` - the name for the server
-- `server.endpoint` - the REST url endpoint used by Firebase
 - `backups/` - folder containing backups
 
 By default, the server allocates 7GB of RAM for the server.

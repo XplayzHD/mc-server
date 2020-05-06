@@ -1,5 +1,5 @@
-#!/bin/bash
-# script to setup and install the server scripts
+#!/bin/sh
+# script to setup and install Minecraft server scripts
 
 #
 # constants
@@ -16,20 +16,10 @@ SERVICEDIR="/etc/systemd/system"
 EXECDIR="/usr/local/bin"
 
 #
-# optimizing the environment
-#
-
-#echo -e "${GN}upgrading packages...${NC}"
-#
-#yes | pacman -Syyuu
-#
-#echo -e "${GN}done.${NC}"
-
-#
 # creating startup service
 #
 
-echo -e "${GN}creating startup service...${NC}"
+echo -e "${LB}installing/updating startup service...${NC}"
 
 mkdir -p $SERVICEDIR
 sudo cp minecraft.service $SERVICEDIR/
@@ -38,33 +28,28 @@ sudo cp minecraft.service $SERVICEDIR/
 systemctl daemon-reload
 
 echo -e "${LB}\tenabling the startup service...${NC}"
-while ! [[ $(systemctl is-enabled minecraft) == "enabled" ]]; do systemctl enable minecraft; done
 
-echo -e "${GN}done.${NC}"
+while ! [[ $(systemctl is-enabled minecraft) == "enabled" ]]; do
+  systemctl enable minecraft
+done
 
 #
 # setting up server directory
 #
 
-echo -e "${GN}setting up server directory...${NC}"
+echo -e "${LB}setting up server directory...${NC}"
 
 echo -e "${LB}\tcreating directory...${NC}"
-mkdir -p $ROOTDIR
 mkdir -p $EXECDIR/minecraft
 
 echo -e "${LB}\tsaving server directory path...${NC}"
 echo $ROOTDIR | tee $EXECDIR/minecraft/rootpath.txt
 
-echo -e "${YW}enter a name for your world. Default is ${LB}ServerWorld${YW}. This can always be updated later in $ROOTDIR/server.name:${NC}"
-read worldName
-test -z "$worldName" && ! test -f $ROOTDIR/server.name && worldName="ServerWorld"
-! test -z "$worldName" && echo "$worldName" | tee $ROOTDIR/server.name
-
 #
 # updating server scripts 
 #
 
-echo -e "${GN}updating server scripts...${NC}"
+echo -e "${LB}updating server scripts...${NC}"
 
 echo -e "${LB}\tremoving old scripts...${NC}"
 rm "$EXECDIR/minecraft/start.sh" >/dev/null 2>&1
@@ -72,17 +57,15 @@ rm "$EXECDIR/minecraft/stop.sh" >/dev/null 2>&1
 rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 
 echo -e "${LB}\tretrieving new scripts...${NC}"
-sudo cp ../start.sh $EXECDIR/minecraft
-sudo cp ../stop.sh $EXECDIR/minecraft
-sudo cp ../restart.sh $EXECDIR/minecraft
-
-echo -e "${GN}done.${NC}"
+sudo cp ../bin/start.sh $EXECDIR/minecraft
+sudo cp ../bin/stop.sh $EXECDIR/minecraft
+sudo cp ../bin/restart.sh $EXECDIR/minecraft
 
 #
 # installing depedencies
 #
 
-echo -e "${GN}installing dependencies...${NC}"
+echo -e "${LB}installing dependencies...${NC}"
 
 echo -e "${LB}\tinstalling java openjdk...${NC}"
 yes | pacman -S jre-openjdk-headless
@@ -102,13 +85,12 @@ sed -i "s/.*#.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
 echo "export TERM=xterm" | tee -a ~/.bashrc
 
-echo -e "${GN}done.${NC}"
 
 #
 # configuring automatic reboot
 #
 
-echo -e "${GN}configuring automatic reboot...${NC}"
+echo -e "${LB}configuring automatic reboot...${NC}"
 
 printf "1\ny" | pacman -S cron
 
@@ -122,8 +104,6 @@ case $bAutoReboot in
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - >/dev/null 2>&1
     ;;
 esac
-
-echo -e "${GN}done.${NC}"
 
 #
 # additional power settings
@@ -175,12 +155,4 @@ echo -e "${GN}done.${NC}"
 # system reboot
 #
 
-echo -e "${YW}The system needs to reboot for the server to run properly. Reboot? [Y/N] ${NC}"
-read bReboot
-case $bReboot in
-  [Yy]*)
-    reboot
-    ;;
-  *) echo -e "${RD}aborting setup.${NC}";
-esac
-
+echo -e "${YW}The server has been successfully set up. Reboot the system to restart the server.${NC}"

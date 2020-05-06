@@ -32,28 +32,7 @@ echo "performance" | tee "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
 # set saves folder
 mkdir -p $ROOTDIR/saves
 touch $ROOTDIR/server.properties
-# sanity check
-touch $ROOTDIR/server.name
-
 serverProps=$ROOTDIR/server.properties
-
-# level name
-
-serverName=$(cat $ROOTDIR/server.name)
-
-if grep -q "level-name" $serverProps; then
-  sed -i "s/level-name=.*/level-name=saves\/$serverName/g" $serverProps
-else
-  echo "level-name=saves/$serverName" | tee -a $serverProps >/dev/null 2>&1
-fi
-
-# difficulty normal
-
-if grep -q "difficulty" $serverProps; then
-  sed -i "s/difficulty=.*/difficulty=normal/g" $serverProps
-else
-  echo "difficulty=normal" | tee -a $serverProps >/dev/null 2>&1
-fi
 
 #
 # backing up server
@@ -87,10 +66,6 @@ sync
 
 echo -e "\tverifying install location..."
 touch $VERFILE
-
-echo -e "\tverifying EULA terms..."
-cd $ROOTDIR
-echo "eula=true" > $ROOTDIR/eula.txt
 
 #
 # getting latest vanilla version
