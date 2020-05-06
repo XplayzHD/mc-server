@@ -1,52 +1,54 @@
 # Minecraft Server
-A performance-optimized portable dedicated [Minecraft](https://www.minecraft.net/) server solution
+A performance-optimized portable dedicated [Minecraft](https://www.minecraft.net/) server solution for Linux
 
 ## Table of Contents
 1. [Goal](#goal)
-2. [Installation](#installation)
-3. [Notes](#notes)
+2. [Cloning](#cloning)
+3. [Scratch Installation](#installation)
+4. [Further Optimization](#optimization)
+4. [Notes](#notes)
 
 ## Goal <a name="goal"></a>
-The purpose of this project is to create a self-sufficient, portable Minecraft server on a portable machine, such as a laptop. A Minecraft server run on a frequently-used machine is usually hard to manage because the host is unable to stay online 24/7, or lags significantly when run parallel to other programs. Manual backups of the server is also a prominent issue, and a lot of data can be lost due to crashes, malfunctions, or poor online ediquette from non-blacklisted users.
+The purpose of this project is to create a self-sufficient, portable vanilla Minecraft server on a portable Linux machine, such as a laptop. A Minecraft server run on a frequently-used machine is usually hard to manage because the host is unable to stay online 24/7, or lags significantly when run parallel to other programs. Manual backups of the server is also a prominent issue, and a lot of data can be lost due to crashes, malfunctions, or poor online ediquette from non-blacklisted users.
 
-Keeping these issues in mind, I decided to write scripts that completely manage all of the above issues and optimize the server to its maximum potential, allowing the server full control of the memory and cpu. This solution only needs power and ethernet, and backups are automatically stored.
+Keeping these issues in mind, I decided to write scripts that completely manage all of the above issues and optimize the server to its maximum potential, allowing the server full control of the memory and cpu. This solution only needs power and consistent ethernet, and backups are automatically saved.
 
-It is important to note that the scripts I created are for a specific usage, and these conditions may not apply to you:
-  - You own a spare machine (laptop, desktop, Raspberry Pi, mobile device).
-  - The machine can be completely wiped and optimized for a single instance of a Minecraft server.
-  - You 24/7 access to power and an ethernet connection.
-  - You don't plan on using any mods and want a Vanilla Minecraft server.
-Without these qualifications, I can't guarantee that my scripts will be most optimized for your usage (on a minor side note, if you make a pull request to change my scripts to work with modded servers, I would gladly review it). I also can't necessarily guarantee server performance. Because Minecraft servers only run with Java and only use a single thread, your specific CPU and RAM will factor in to the overall server performance.
+While the scripts are intended to be used on a spare standalone machine, they can also be run in the background of a pre-existing operating system. It is important, however, that you maintain 24/7 internet access for best server network performance.
+Because of this, if you would like to follow the intended route and have a machine dedicated to a Minecraft server, you can follow the [scratch installation process](#installation) to install a minimal operating system from scratch to ensure optimal performance.
+
+I can't necessarily guarantee that my scripts will always be the most optimized for your usage. A lot of factors play a role in overall server performance but perhaps the most significant ones involves specific hardware and network connection, which these scripts cannot optimize or amend. If you still have issues running a server, see the [further optimization](#optimization) to see how to optimize server load. 
 
 _I originally created this with a Rapsberry Pi 4 in mind but I have adjusted the guide, since a single Raspberry Pi is not sustainable for running a Minecraft server with more than two players on at once._
 
-## Installation <a name="installation"></a>
+## Cloning <a name="cloning"></a>
 
-The installation involves wiping the machine completely and installing a minimal Archlinux instance. Before proceeding, make sure you have Archlinux installed according with the [Archlinux installation guide](installation/arch.md).
-
-1. Once logged into the system, clone this repository. In this setup I'll clone it into a folder called `minecraft`:
+1. Clone this repository into a folder of your choice. The server's settings, backups, and world save will be located in this folder. For example, if I wanted to clone these scripts into `~/minecraft`:
     ```
     git clone https://github.com/bossley9/mc-server.git minecraft
-    cd minecraft
     ```
-2. Run the setup script.
+2. Run the setup script, which sets up the server as a background service.
     ```
-    chmod u+x ./installation/setup.sh
     ./installation/setup.sh
     ```
-
-    This setup process will download all necessary packages needed to optimize and run the server, as well as set up all directories and scripts. You will be prompted a few settings:
-    - Enter a name for your world
-    - Approve the daily server restart at 4AM local time
-    At the end of the process, it will need to reboot to start the server.
-    ```bash
-    curl https://raw.githubusercontent.com/bossley9/mc-server/master/desktop/setup.sh -o setup.sh
-    chmod +x setup.sh
-    ./setup.sh
+3. Reboot the machine.
     ```
-    The reason for this script is that without it, a headless server running makes it tricky to download all the specified files from this repository, unzip them and place them in the correct locations. This script makes things simpler and initializes all necessary services. Feel free to closely examine `desktop/setup.sh` for more information.
-    Your server will then be fully functional and running on reboot!
-2. Before you unplug the display or disconnect the server, it is **highly recommended** that you read the [notes](#notes) and OP at least one player.
+    sudo reboot
+    ```
+4. Make sure to OP one player once the server boots.
+
+It's recommended you look over [further optimization](#optimization) and [notes](#notes) to see how to better manage your server.
+
+## Scratch Installation <a name="installation"></a>
+
+To completely wipe and install a minimal Arch distributation into the machine, see the [arch installation](installation/arch.md) guide.
+
+## Further Optimization <a name="optimization"></a>
+
+#### Hardware
+
+Hardware can greatly impact the performance of a Minecraft server. As of the last time this readme was updated (2020.05.05), [Java Edition Minecraft servers handle ticks entirely with one thread](https://linustechtips.com/main/topic/824264-how-many-cores-does-a-minecraft-server-use-efficiently/). Because of this fact, the best way to optimize TPS (ticks per second) is to use a CPU with a high single-thread performance. You can find an in-depth ranking of CPU single threads [here](https://www.cpubenchmark.net/singleThread.html).
+
+Memory could also be an issue. I recommend 8GB of RAM since Java enjoys hoarding RAM. 4GB of RAM is likely doable, but pushing the server, especially if the server is not standalone and the machine is used for casual use.
 
 ## Notes <a name="notes"></a>
 A user can access the server console from the computer by switching processes:

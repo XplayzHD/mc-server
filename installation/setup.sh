@@ -11,7 +11,7 @@ GN='\033[1;32m'
 YW='\033[1;33m'
 NC='\033[0m'
 
-ROOTDIR="$HOME/minecraft"
+ROOTDIR="$(pwd)/../server"
 SERVICEDIR="/etc/systemd/system"
 EXECDIR="/usr/local/bin"
 
@@ -19,11 +19,11 @@ EXECDIR="/usr/local/bin"
 # optimizing the environment
 #
 
-echo -e "${GN}upgrading packages...${NC}"
-
-yes | pacman -Syyuu
-
-echo -e "${GN}done.${NC}"
+#echo -e "${GN}upgrading packages...${NC}"
+#
+#yes | pacman -Syyuu
+#
+#echo -e "${GN}done.${NC}"
 
 #
 # creating startup service
@@ -32,10 +32,7 @@ echo -e "${GN}done.${NC}"
 echo -e "${GN}creating startup service...${NC}"
 
 mkdir -p $SERVICEDIR
-
-echo -e "${LB}\tdownloading the startup service from the repository...${NC}"
-curl https://raw.githubusercontent.com/bossley9/mc-server/master/minecraft.service -o $SERVICEDIR/minecraft.service
-chmod u+x $SERVICEDIR/minecraft.service
+sudo cp minecraft.service $SERVICEDIR/
 
 # reload daemon cache
 systemctl daemon-reload
@@ -75,12 +72,9 @@ rm "$EXECDIR/minecraft/stop.sh" >/dev/null 2>&1
 rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 
 echo -e "${LB}\tretrieving new scripts...${NC}"
-curl "https://raw.githubusercontent.com/bossley9/mc-server/master/desktop/start.sh" -o "$EXECDIR/minecraft/start.sh"
-chmod u+x "$EXECDIR/minecraft/start.sh"
-curl "https://raw.githubusercontent.com/bossley9/mc-server/master/desktop/stop.sh" -o "$EXECDIR/minecraft/stop.sh"
-chmod u+x "$EXECDIR/minecraft/stop.sh"
-curl "https://raw.githubusercontent.com/bossley9/mc-server/master/desktop/restart.sh" -o "$EXECDIR/minecraft/restart.sh"
-chmod u+x "$EXECDIR/minecraft/restart.sh"
+sudo cp ../start.sh $EXECDIR/minecraft
+sudo cp ../stop.sh $EXECDIR/minecraft
+sudo cp ../restart.sh $EXECDIR/minecraft
 
 echo -e "${GN}done.${NC}"
 
@@ -132,50 +126,50 @@ esac
 echo -e "${GN}done.${NC}"
 
 #
-# power settings
+# additional power settings
 #
 
-logind="/etc/systemd/logind.conf"
-
-if grep -q "HandleLidSwitch=" $logind; then
-  sed -i "s/HandleLidSwitch=.*/HandleLidSwitch=ignore/g" $logind
-else
-  echo "HandleLidSwitch=ignore" | tee -a $logind >/dev/null 2>&1
-fi
-
-if grep -q "HandleLidSwitchExternalPower=" $logind; then
-  sed -i "s/HandleLidSwitchExternalPower=.*/HandleLidSwitchExternalPower=ignore/g" $logind
-else
-  echo "HandleLidSwitchExternalPower=ignore" | tee -a $logind >/dev/null 2>&1
-fi
-
-if grep -q "HandleLidSwitchDocked=" $logind; then
-  sed -i "s/HandleLidSwitchDocked=.*/HandleLidSwitchDocked=ignore/g" $logind
-else
-  echo "HandleLidSwitchDocked=ignore" | tee -a $logind >/dev/null 2>&1
-fi
+#logind="/etc/systemd/logind.conf"
+#
+#if grep -q "HandleLidSwitch=" $logind; then
+#  sed -i "s/HandleLidSwitch=.*/HandleLidSwitch=ignore/g" $logind
+#else
+#  echo "HandleLidSwitch=ignore" | tee -a $logind >/dev/null 2>&1
+#fi
+#
+#if grep -q "HandleLidSwitchExternalPower=" $logind; then
+#  sed -i "s/HandleLidSwitchExternalPower=.*/HandleLidSwitchExternalPower=ignore/g" $logind
+#else
+#  echo "HandleLidSwitchExternalPower=ignore" | tee -a $logind >/dev/null 2>&1
+#fi
+#
+#if grep -q "HandleLidSwitchDocked=" $logind; then
+#  sed -i "s/HandleLidSwitchDocked=.*/HandleLidSwitchDocked=ignore/g" $logind
+#else
+#  echo "HandleLidSwitchDocked=ignore" | tee -a $logind >/dev/null 2>&1
+#fi
 
 #
 # setup ssh
 #
 
-grubConf="/etc/default/grub"
-
-if grep -q "GRUB_TIMEOUT=" $grubConf; then
-  sed "s/.*GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/g" $grubConf | tee $grubConf
-else
-  echo "GRUB_TIMEOUT=0" | tee -a $grubConf
-fi
-
-# twice for safety measures
-
-if grep -q "GRUB_TIMEOUT=" $grubConf; then
-  sed "s/.*GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/g" $grubConf | tee $grubConf
-else
-  echo "GRUB_TIMEOUT=0" | tee -a $grubConf
-fi
-
-grub-mkconfig -o /boot/grub/grub.cfg
+#grubConf="/etc/default/grub"
+#
+#if grep -q "GRUB_TIMEOUT=" $grubConf; then
+#  sed "s/.*GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/g" $grubConf | tee $grubConf
+#else
+#  echo "GRUB_TIMEOUT=0" | tee -a $grubConf
+#fi
+#
+## twice for safety measures
+#
+#if grep -q "GRUB_TIMEOUT=" $grubConf; then
+#  sed "s/.*GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/g" $grubConf | tee $grubConf
+#else
+#  echo "GRUB_TIMEOUT=0" | tee -a $grubConf
+#fi
+#
+#grub-mkconfig -o /boot/grub/grub.cfg
 
 #
 # system reboot

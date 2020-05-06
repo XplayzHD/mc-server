@@ -202,5 +202,5 @@ We will be creating a main partition for all files and a swap partition for susp
     umount -R /mnt
     shutdown -h now
     ```
-4. Unplug the usb and power on the machine. It should boot immediately into the Arch login. You should be able to log in using `root` as the username and the password set earlier. If not, repeat the previous steps to install Arch.
+4. Unplug the usb and power on the machine. It should boot immediately into the Arch login. You should be able to log in using `root` as the username and the password set earlier. If not, repeat the previous steps to install Arch. Once Arch is installed, follow [cloning](../README.md#cloning) instructions to setup the server.
 
