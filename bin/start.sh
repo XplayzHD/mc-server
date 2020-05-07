@@ -1,12 +1,5 @@
 # script to start the server
 
-echo local ip:
-echo "$(ip a | awk '/state UP/{getline; getline; print $2}' | cut -d '/' -f1)"
-echo "broadcasted ip:"
-echo "$(curl -S ifconfig.me)"
-echo "script directory:"
-echo $(dirname "$0")
-
 #
 # constants
 #
@@ -22,16 +15,17 @@ ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE="$ROOTDIR/server.version"
 numBackups=10
 
+# store server ip addresses
+
+echo "$(ip a | awk '/state UP/{getline; getline; print $2}' | cut -d '/' -f1)" | tee $ROOTDIR/server.ip
+echo "$(curl -S ifconfig.me)" | tee -a $ROOTDIR/server.ip
+
 #
 # precheck
 #
 
-# set scaling governor
-echo "performance" | tee "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >/dev/null 2>&1 
-
 # set saves folder
 mkdir -p $ROOTDIR/saves
-touch $ROOTDIR/server.properties
 serverProps=$ROOTDIR/server.properties
 
 #
@@ -59,7 +53,6 @@ fi
 
 echo -e "${LB}server prechecking...${NC}"
 
-# https://raw.githubusercontent.com/TheRemote/RaspberryPiMinecraft/master/start.sh
 echo -e "\tflushing memory..."
 sh -c "echo 1 > /proc/sys/vm/drop_caches"
 sync
@@ -132,4 +125,4 @@ fi
 
 echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
-nice -n -20 screen -dmS minecraft java -server -Xmx7G -Xms1G -jar $ROOTDIR/server.jar nogui
+nice -n -20 screen -dmS minecraft java -server -Xmx4G -Xms1G -jar $ROOTDIR/server.jar nogui
