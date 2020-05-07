@@ -44,7 +44,9 @@ To completely wipe and install a minimal Arch distributation into the machine, s
 
 ## Further Optimization <a name="optimization"></a>
 
-#### Hardware
+- [Hardware](#op-hardware)
+
+#### Hardware <a name="op-hardware" />
 
 Hardware can greatly impact the performance of a Minecraft server. As of the last time this readme was updated (2020.05.05), [Java Edition Minecraft servers handle ticks entirely with one thread](https://linustechtips.com/main/topic/824264-how-many-cores-does-a-minecraft-server-use-efficiently/). Because of this fact, the best way to optimize TPS (ticks per second) is to use a CPU with a high single-thread performance. You can find an in-depth ranking of CPU single threads [here](https://www.cpubenchmark.net/singleThread.html).
 

@@ -83,27 +83,11 @@ systemctl enable sshd
 
 sed -i "s/.*#.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
-echo "export TERM=xterm" | tee -a ~/.bashrc
-
-
-#
-# configuring automatic reboot
-#
-
-echo -e "${LB}configuring automatic reboot...${NC}"
-
 printf "1\ny" | pacman -S cron
 
-echo -e "${LB}current system time is $(date)."
-echo -e "${YW}automatically reboot and update server at 4AM daily? This can always be changed via crontab -e. [Y/N]${NC}"
-read bAutoReboot
-case $bAutoReboot in
-  [Yy]*)
-    croncmd="$EXECDIR/minecraft/restart.sh"
-    cronjob="0 4 * * * $croncmd"
-    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - >/dev/null 2>&1
-    ;;
-esac
+croncmd="$EXECDIR/minecraft/restart.sh"
+cronjob="4 0 * * * $croncmd"
+( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - >/dev/null 2>&1
 
 #
 # additional power settings
