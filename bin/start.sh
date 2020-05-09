@@ -1,3 +1,4 @@
+#!/bin/sh
 # script to start the server
 
 #

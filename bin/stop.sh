@@ -1,3 +1,4 @@
+#!/bin/sh
 # script to stop the server
 
 #

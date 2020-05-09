@@ -31,13 +31,12 @@ _I originally created this with a Rapsberry Pi 4 in mind but I have adjusted the
     ```
     ./installation/setup.sh
     ```
-3. Reboot the machine.
+    If you would like to further optimize the system, check out [further optimization](#optimization).
+3. Reboot the machine. Make sure to OP one player once the server boots.
     ```
     sudo reboot
     ```
-4. Make sure to OP one player once the server boots.
-
-It's recommended you look over [further optimization](#optimization) and [notes](#notes) to see how to better manage your server.
+I recommended you look over [notes](#notes) to see how to better manage your server.
 
 ## Scratch Installation <a name="installation"></a>
 
