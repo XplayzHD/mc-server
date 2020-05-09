@@ -1,0 +1,12 @@
+server/backups
+server/logs
+server/banned-ips.json
+server/banned-players.json
+server/ops.json
+server/saves/*
+server/server.ip
+server/server.jar
+server/server.version
+server/usercache.json
+server/whitelist.json
+server/server.properties
