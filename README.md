@@ -74,7 +74,7 @@ HandleLidSwitchDocked=ignore
 
 Most Linux systems come with a scaling governor which determines how intensive a CPU should run to match its load. By default, it chooces `on demand`, meaning it scales based on how much CPU is required by running programs. It is possible to improve server performance on a machine by setting the scaling governor to `performance`, to run at max performance regardless of running programs.
 ```
-echo "performance" | tee "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >/dev/null 2>&1 
+echo performance | tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 ```
 
 ## Notes <a name="notes"></a>

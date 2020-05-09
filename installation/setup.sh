@@ -11,7 +11,8 @@ GN='\033[1;32m'
 YW='\033[1;33m'
 NC='\033[0m'
 
-ROOTDIR="$(pwd)/../server"
+DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOTDIR="$DIR/../server"
 SERVICEDIR="/etc/systemd/system"
 EXECDIR="/usr/local/bin"
 
@@ -22,7 +23,7 @@ EXECDIR="/usr/local/bin"
 echo -e "${LB}installing/updating startup service...${NC}"
 
 mkdir -p $SERVICEDIR
-sudo cp minecraft.service $SERVICEDIR/
+sudo cp $DIR/minecraft.service $SERVICEDIR/
 
 # reload daemon cache
 systemctl daemon-reload
@@ -57,9 +58,9 @@ rm "$EXECDIR/minecraft/stop.sh" >/dev/null 2>&1
 rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 
 echo -e "${LB}\tretrieving new scripts...${NC}"
-sudo cp ../bin/start.sh $EXECDIR/minecraft
-sudo cp ../bin/stop.sh $EXECDIR/minecraft
-sudo cp ../bin/restart.sh $EXECDIR/minecraft
+sudo cp $DIR/../bin/start.sh $EXECDIR/minecraft
+sudo cp $DIR/../bin/stop.sh $EXECDIR/minecraft
+sudo cp $DIR/../bin/restart.sh $EXECDIR/minecraft
 
 #
 # installing depedencies
