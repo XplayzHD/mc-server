@@ -56,3 +56,5 @@ sleep 10
 
 # start server
 $EXECDIR/minecraft/start.sh
+# if running on a dedicated machine, comment out the line above and uncomment the line below.
+#sudo reboot

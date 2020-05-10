@@ -51,9 +51,14 @@ Note that the broadcasted address will not work unless the local network's port 
 
 ## Further Optimization <a name="optimization"></a>
 
+- [Restarting](#op-restart)
 - [Hardware](#op-hardware)
 - [Laptop Lid](#op-lid)
 - [CPU Performance Governor](#op-governor)
+
+#### Restarting <a name="op-restart"></a>
+
+If you are running the server on a dedicated machine, regular rebooting will help reduce memory usage and overall performance. To reboot the machine once per day, uncomment the rebooting lines found at the bottom of `bin/restart.sh`, then rerun the setup script.
 
 #### Hardware <a name="op-hardware"></a>
 
