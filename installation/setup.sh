@@ -54,12 +54,10 @@ echo -e "${LB}updating server scripts...${NC}"
 
 echo -e "${LB}\tremoving old scripts...${NC}"
 rm "$EXECDIR/minecraft/start.sh" >/dev/null 2>&1
-rm "$EXECDIR/minecraft/stop.sh" >/dev/null 2>&1
 rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 
 echo -e "${LB}\tretrieving new scripts...${NC}"
 sudo cp $DIR/../bin/start.sh $EXECDIR/minecraft
-sudo cp $DIR/../bin/stop.sh $EXECDIR/minecraft
 sudo cp $DIR/../bin/restart.sh $EXECDIR/minecraft
 
 #
