@@ -84,6 +84,8 @@ sed -i "s/.*#.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
 printf "1\ny" | pacman -S cron
 
+systemctl enable cronie
+systemctl start cronie
 croncmd="$EXECDIR/minecraft/restart.sh"
 cronjob="0 4 * * * $croncmd"
 ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab - >/dev/null 2>&1
