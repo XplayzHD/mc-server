@@ -16,17 +16,10 @@ ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE="$ROOTDIR/server.version"
 numBackups=10
 
-# store server ip addresses
-
-echo "$(ip a | awk '/state UP/{getline; getline; print $2}' | cut -d '/' -f1)" | tee $ROOTDIR/server.ip
-echo "$(curl -S ifconfig.me)" | tee -a $ROOTDIR/server.ip
-
 #
 # precheck
 #
 
-# set saves folder
-mkdir -p $ROOTDIR/saves
 serverProps=$ROOTDIR/server.properties
 
 #

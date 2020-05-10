@@ -44,10 +44,8 @@ To completely wipe and install a minimal Arch distributation into the machine, s
 
 ## How Can I Find My Server IP? <a name="ip"></a>
 
-The local and broadcasted server ips will be generated every time the server starts 
-in `server/server.ip`. The first line will correspond to the IP address in the local network, and the second IP corresponds to the broadcasted IP address for anyone to use.
-
-You can also determine the server IP addresses by executing `bin/ip.sh`, which will simply print the local and broadcasted IPs.
+You can determine the server IP addresses by executing `bin/ip.sh`, which will simply print the local and broadcasted IPs.
+The first line will correspond to the IP address in the local network, and the second IP corresponds to the broadcasted IP address for anyone to use.
 
 Note that the broadcasted address will not work unless the local network's port `25565` is port-forwarded. The process is different depending on the modem and internet service provider you use, but generally they all involve opening the modem's settings browser page and adding `25565` to the port-forward section.
 
