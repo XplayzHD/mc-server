@@ -6,19 +6,13 @@
 #
 
 LB='\033[1;94m'
-RD='\033[1;31m'
 GN='\033[1;32m'
 NC='\033[0m'
 
 EXECDIR="/usr/local/bin"
 ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE="$ROOTDIR/server.version"
-numBackups=10
-
-serverProps=$ROOTDIR/server.properties
-
-# verify version file
-touch $VERFILE
+numBackups="$(grep -i '^num-backups' $ROOTDIR/server.config | cut -d'=' -f2)"
 
 #
 # backing up server
@@ -29,15 +23,11 @@ echo -e "${LB}backing up server...${NC}"
 mkdir -p $ROOTDIR/backups
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
-# copy worlds into timestampped folder
-mkdir -p  $ROOTDIR/backups/$timestamp
-cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp/ > /dev/null
+# copy world into timestamped folder
+cp -r $ROOTDIR/saves/* $ROOTDIR/backups/$timestamp > /dev/null
 
 # delete old worlds
-numDirectories=$(ls -l | grep -c ^d)
-if [[ $numDirectories > $numBackups ]]; then
-  ls -tp | grep -v '/$' | tail -n +$numBackups | xargs -I {} rm -- {}
-fi
+ls -t $ROOTDIR/backups | tail -n +$(($numBackups + 1)) | xargs printf "$ROOTDIR/backups/%s\n" | xargs -d '\n' rm -r
 
 #
 # server prechecking
@@ -50,6 +40,9 @@ sync
 #
 # getting latest vanilla version
 #
+
+# verify version file
+touch $VERFILE
 
 echo -e "getting the latest vanilla version..."
 
