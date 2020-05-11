@@ -89,8 +89,6 @@ If your server can barely keep a reasonable tick speed and you are willing to lo
 
 However, Fabric is only part of a solution. To fully utilize maximum performance, you will need to download mods to use with Fabric. I recommend [Lithium](https://www.curseforge.com/minecraft/mc-mods/lithium), which increases tick speed by optimizing server cpu handling. Due to Captchas and checks, I am unable to automate the Lithium install process at this time, but you can download the file and move it to the `server/mods` folder, then restart the server for the changes to take effect. If working remotely, you can transfer files with the `scp` utility.
 
-You can also try [Phosphor](https://www.curseforge.com/minecraft/mc-mods/phosphor), which attempts to improve the lighting rendering.
-
 ## Notes <a name="notes"></a>
 
 After the initial restart, turning on the host machine will automatically start 
