@@ -44,7 +44,7 @@ echo -e "${LB}\tcreating directory...${NC}"
 mkdir -p $EXECDIR/minecraft
 
 echo -e "${LB}\tsaving server directory path...${NC}"
-echo $ROOTDIR | tee $EXECDIR/minecraft/rootpath.txt
+echo $ROOTDIR | tee $EXECDIR/minecraft/rootpath.txt > /dev/null
 
 #
 # updating server scripts 
@@ -67,22 +67,22 @@ sudo cp $DIR/../bin/restart.sh $EXECDIR/minecraft
 echo -e "${LB}installing dependencies...${NC}"
 
 echo -e "${LB}\tinstalling java openjdk...${NC}"
-yes | pacman -S jre-openjdk-headless
+yes | pacman -S --needed jre-openjdk-headless
 if ! java -version 2>&1 >/dev/null | egrep "\S+\s+version"; then
   echo -e "${RD}java could not be installed correctly. Aborting.${NC}"
   exit 1
 fi
 
 echo -e "${LB}\tinstalling screen...${NC}"
-yes | pacman -S screen
+yes | pacman -S --needed screen
 
 echo -e "${LB}\tinstalling ssh...${NC}"
-yes | pacman -S openssh
+yes | pacman -S --needed openssh
 systemctl enable sshd
 
 sed -i "s/.*#.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
-printf "1\ny" | pacman -S cron
+printf "1\ny" | pacman -S --needed cron
 
 systemctl enable cronie
 systemctl start cronie

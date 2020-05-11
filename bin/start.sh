@@ -8,7 +8,6 @@
 LB='\033[1;94m'
 RD='\033[1;31m'
 GN='\033[1;32m'
-YW='\033[1;33m'
 NC='\033[0m'
 
 EXECDIR="/usr/local/bin"
@@ -16,11 +15,10 @@ ROOTDIR="$(cat $EXECDIR/minecraft/rootpath.txt)"
 VERFILE="$ROOTDIR/server.version"
 numBackups=10
 
-#
-# precheck
-#
-
 serverProps=$ROOTDIR/server.properties
+
+# verify version file
+touch $VERFILE
 
 #
 # backing up server
@@ -45,26 +43,25 @@ fi
 # server prechecking
 #
 
-echo -e "${LB}server prechecking...${NC}"
-
-echo -e "\tflushing memory..."
+echo -e "flushing system memory..."
 sh -c "echo 1 > /proc/sys/vm/drop_caches"
 sync
-
-echo -e "\tverifying install location..."
-touch $VERFILE
 
 #
 # getting latest vanilla version
 #
 
-echo -e "\tgetting the latest vanilla version..."
+echo -e "getting the latest vanilla version..."
 
-latestVersion="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
-latestVersion=$(echo "$latestVersion" | grep -m 1 -Eo "minecraft_server[^\"]+\.jar")
-latestVersion=$(echo $latestVersion | grep -Eo "[0-9]+\.[0-9]+(\.[0-9]+)?")
+latestServer="$(curl -s https://www.minecraft.net/en-us/download/server/ | grep -m1 '<a.*minecraft_server.*\.jar.*</a>')"
 
-echo -e "\tlatest minecraft version is ${LB}$latestVersion${NC}"
+# quit script if no internet connection is present!
+[[ -z $latestServer ]] && exit 1
+
+link=$(echo $latestServer | sed -e 's/^.*href="//' -e 's/".*//')
+latestVersion=$(echo $latestServer | sed -e 's/^.*>.*minecraft_server\.//' -e 's/\.jar.*//')
+
+echo -e "latest version is ${LB}$latestVersion${NC}."
 
 #
 # check if latest version is higher than the current version
@@ -74,6 +71,8 @@ currentVersion="$(cat $VERFILE)"
 
 rx='^([0-9]+\.){0,2}(\*|[0-9]+)$'
 if ! [[ $currentVersion =~ $rx ]]; then currentVersion="0.0.0"; fi
+
+echo -e "current server version is ${LB}$currentVersion${NC}."
 
 #
 # if latest version > current version, update current version and replace the current server
@@ -97,20 +96,18 @@ function versionCompare () {
   return 0
 }
 
-echo -e "\tcomparing latest version to current version..."
+echo "comparing latest version to current version..."
 
 versionCompare $latestVersion $currentVersion
 
 if [[ $? == 1 ]]; then # greater than means 1
+  echo "$latestVersion > $currentVersion"
   echo $latestVersion > $VERFILE
-  currentVersion="$(echo $latestVerion)"
 
-  echo -e "\tinstalling latest version..."
-
-  link="$(curl https://www.minecraft.net/en-us/download/server/ | grep -e 'minecraft_server')"
-  link=$(echo "$link" | grep -Eo 'href="[^\"]+"' | cut -d'"' -f 2)
-
-  curl $link -o $ROOTDIR/server.jar
+  echo "installing latest version..."
+  curl -s $link -o $ROOTDIR/server.jar
+else
+  echo "current version is up to date. Using current version."
 fi
 
 #
