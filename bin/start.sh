@@ -114,7 +114,10 @@ fi
 # starting server
 #
 
+memMax="$(grep -i '^max-mem-alloc' $ROOTDIR/server.config | cut -d'=' -f2)G"
+memMin="$(grep -i '^min-mem-alloc' $ROOTDIR/server.config | cut -d'=' -f2)G"
+
 echo -e "\n${GN}starting server.${NC} To view server from root, type ${LB}screen -r minecraft${NC}. To minimize the window, type ${LB}CTRL-A CTRL-D${NC}."
 
 cd $ROOTDIR
-nice -n -20 screen -dmS minecraft java -server -Xmx4G -Xms1G -jar $ROOTDIR/server.jar nogui
+nice -n -20 screen -dmS minecraft java -server -Xmx$memMax -Xms$memMin -jar $ROOTDIR/server.jar nogui

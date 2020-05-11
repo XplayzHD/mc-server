@@ -58,13 +58,13 @@ Note that the broadcasted address will not work unless the local network's port 
 
 #### Restarting <a name="op-restart"></a>
 
-If you are running the server on a dedicated machine, regular rebooting will help reduce memory usage and overall performance. To reboot the machine once per day, uncomment the rebooting lines found at the bottom of `bin/restart.sh`, then rerun the setup script.
+If you are running the server on a dedicated machine, regular rebooting will help reduce memory usage and overall performance. To reboot the machine with each server restart, change the `reboot-on-restart` property in `server/server.config`, then restart the server.
 
 #### Hardware <a name="op-hardware"></a>
 
 Hardware can greatly impact the performance of a Minecraft server. As of the last time this readme was updated (2020.05.05), [Java Edition Minecraft servers handle ticks entirely with one thread](https://linustechtips.com/main/topic/824264-how-many-cores-does-a-minecraft-server-use-efficiently/). Because of this fact, the best way to optimize TPS (ticks per second) is to use a CPU with a high single-thread performance. You can find an in-depth ranking of CPU single threads [here](https://www.cpubenchmark.net/singleThread.html).
 
-Memory could also be an issue. I recommend 8GB of RAM since Java enjoys hoarding RAM. 4GB of RAM is likely doable, but pushing the server, especially if the server is not standalone and the machine is used for casual use. I recommend using a performance utility such as `htop` or `glances` to monitor the server performance and resource usage from time to time.
+Memory could also be an issue. To increase the amount of memory, change `max-mem-alloc` in `server/server.config`, then restart the server for changes to take effect. I recommend 8GB of RAM since Java enjoys hoarding RAM. 4GB of RAM is likely doable, but pushing the server, especially if the server is not standalone and the machine is used for casual use. I also recommend using a performance utility such as `htop` or `glances` to monitor the server performance and resource usage from time to time.
 
 #### Laptop Lid <a name="op-lid"></a>
 
@@ -101,7 +101,8 @@ in-game console with the same command.
 The server will automatically restart once every 24 hours at 4 AM (local time).
 You can also manually control starting and stopping the server manually with 
 `systemctl` commands such as `sudo systemctl stop minecraft` 
-and `sudo systemctl start minecraft`.
+and `sudo systemctl start minecraft`, although it is recommended to manually
+call `stop` from within the server to ensure the server state is saved.
 
 By default, the server allocates 4GB of RAM for the server.
 
@@ -111,15 +112,16 @@ Significant files within the folder are shown below:
 server/
   backups/
   saves/
+  server.config
   server.properties
-  server.ip
 ```
 
 - `backups` - the backups folder stores the previous ten backups from the server
 - `saves` - holds the current server save file. Be careful not to tamper or 
           delete anything in this folder, and risk losing your server!
+- `server.config` - contains all core server settings in key value pairs. These
+	  settings regard the starting, stopping, and restarting of the server.
+          The server will need to restart before settings can go into effect.
 - `server.properties` - holds all minecraft server settings in key-value pairs.
           change settings to your liking here. The server will need to restart 
           before settings can go into effect.
-- `server.ip` - holds local and broadcasted server IPs. This is only generated 
-          once the server is started.

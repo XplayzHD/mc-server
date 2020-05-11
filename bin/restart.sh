@@ -55,6 +55,9 @@ fi
 sleep 10
 
 # start server
-$EXECDIR/minecraft/start.sh
-# if running on a dedicated machine, comment out the line above and uncomment the line below.
-#sudo reboot
+shouldReboot="$(grep -i '^reboot-on-restart' $ROOTDIR/server.config | cut -d'=' -f2)"
+if [ $shouldReboot = "true" ]; then
+  sudo reboot
+else
+  $EXECDIR/minecraft/start.sh
+fi
