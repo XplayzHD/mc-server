@@ -23,7 +23,7 @@ EXECDIR="/usr/local/bin"
 echo -e "${LB}installing/updating startup service...${NC}"
 
 mkdir -p $SERVICEDIR
-sudo cp $DIR/minecraft.service $SERVICEDIR/
+cp $DIR/minecraft.service $SERVICEDIR/
 
 # reload daemon cache
 systemctl daemon-reload
@@ -57,8 +57,8 @@ rm "$EXECDIR/minecraft/start.sh" >/dev/null 2>&1
 rm "$EXECDIR/minecraft/restart.sh" >/dev/null 2>&1
 
 echo -e "${LB}\tretrieving new scripts...${NC}"
-sudo cp $DIR/../bin/start.sh $EXECDIR/minecraft
-sudo cp $DIR/../bin/restart.sh $EXECDIR/minecraft
+cp $DIR/../bin/start.sh $EXECDIR/minecraft
+cp $DIR/../bin/restart.sh $EXECDIR/minecraft
 
 #
 # installing depedencies

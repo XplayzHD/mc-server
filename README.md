@@ -30,6 +30,10 @@ _I originally created this with a Rapsberry Pi 4 in mind but I have adjusted the
 2. Run the setup script, which sets up the server as a background service.
     ```
     ./installation/setup.sh
+
+    or
+
+    sudo ./installation/setup.sh
     ```
     If you would like to further optimize the system, check out [further optimization](#optimization).
 3. Reboot the machine. Make sure to OP one player once the server boots.
