@@ -55,6 +55,7 @@ Note that the broadcasted address will not work unless the local network's port 
 - [Hardware](#op-hardware)
 - [Laptop Lid](#op-lid)
 - [CPU Performance Governor](#op-governor)
+- [Fabric](#op-fabric)
 
 #### Restarting <a name="op-restart"></a>
 
@@ -81,6 +82,12 @@ Most Linux systems come with a scaling governor which determines how intensive a
 ```
 echo performance | tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 ```
+
+#### Fabric <a name="op-fabric"></a>
+
+If your server can barely keep a reasonable tick speed and you are willing to look into modded options, Fabric is a perfect alternative. Fabric can be enabled simply by changing `enable-fabric` in `server/server.config`. On server restart, Fabric will be installed and loaded. Fabric will work on preexisting worlds.
+
+However, Fabric is only part of a solution. To fully utilize maximum performance, you will need to download mods to use with Fabric. I recommend [Lithium](https://www.curseforge.com/minecraft/mc-mods/lithium), which increases tick speed by optimizing server cpu handling. Due to Captchas and checks, I am unable to automate the Lithium install process at this time, but you can download the file and move it to the `server/mods` folder, then restart the server for the changes to take effect. If working remotely, you can transfer files with the `scp` utility.
 
 ## Notes <a name="notes"></a>
 

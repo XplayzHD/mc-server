@@ -11,4 +11,10 @@ usercache.json
 whitelist.json
 server.properties
 debug/
-
+.fabric/
+.mixin.out/
+config/
+fabric-server-launch.jar
+fabric-server-launcher.properties
+fabric.jar
+mods/
