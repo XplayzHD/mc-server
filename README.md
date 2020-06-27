@@ -8,6 +8,7 @@ A performance-optimized portable dedicated [Minecraft](https://www.minecraft.net
 4. [How Can I Find My Server IP?](#ip)
 5. [Further Optimization](#optimization)
 6. [Notes](#notes)
+7. [Todo](#todo)
 
 ## Goal <a name="goal"></a>
 The purpose of this project is to create a self-sufficient, portable vanilla Minecraft server on a portable Linux machine, such as a laptop. A Minecraft server run on a frequently-used machine is usually hard to manage because the host is unable to stay online 24/7, or lags significantly when run parallel to other programs. Manual backups of the server is also a prominent issue, and a lot of data can be lost due to crashes, malfunctions, or poor online ediquette from non-blacklisted users.
@@ -136,3 +137,8 @@ server/
 - `server.properties` - holds all minecraft server settings in key-value pairs.
           change settings to your liking here. The server will need to restart 
           before settings can go into effect.
+
+## Todo <a name="todo"></a>
+
+- make auto updates optional
+- fix backup system
